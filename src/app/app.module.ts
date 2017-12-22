@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutingModule } from './/routing.module';
 import { UsersService } from './users/users.service';
 import { HttpModule } from '@angular/http';
@@ -14,7 +15,9 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     RoutingModule,
-    HttpModule
+    HttpModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [UsersService, GroupsService],
   bootstrap: [AppComponent]
