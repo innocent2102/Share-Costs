@@ -3,7 +3,7 @@
 body {
     color: #4d4d4d;
     font-family: 'Lato', sans-serif;
-    background-image: url('./restaurant.png');
+    background-image: url('./body-bg.png');
 }
 
 .clear-padding {
@@ -17,7 +17,7 @@ body {
 
 .side-bar ul {
     padding: 0;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     border: #e7e7e7 1px solid;
     border-radius: 5px;
 }
@@ -25,6 +25,9 @@ body {
 .side-bar ul a {
     border: 0;
     padding-left: 15px;
+    -webkit-box-shadow: -10px 10px 58px -16px rgba(0, 0, 0, 0.53);
+    -moz-box-shadow: -10px 10px 58px -16px rgba(0, 0, 0, 0.53);
+    box-shadow: -10px 10px 58px -16px rgba(0, 0, 0, 0.53);
 }
 
 .side-bar ul a:hover {
