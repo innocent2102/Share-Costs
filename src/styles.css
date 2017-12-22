@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    color: #4d4d4d;
+    font-family: 'Lato', sans-serif;
+    background-image: url('./restaurant.png');
+}
+
+.clear-padding {
+    padding: 0;
+}
+
+#logo {
+    text-align: center;
+    padding: 10px;
+}
+
+.side-bar ul {
+    padding: 0;
+    margin-bottom: 15px;
+    border: #e7e7e7 1px solid;
+    border-radius: 5px;
+}
+
+.side-bar ul a {
+    border: 0;
+    padding-left: 15px;
+}
+
+.side-bar ul a:hover {
+    background: #eee;
+    color: #23527c;
+    cursor: pointer;
+}
+
+.list-header {
+    background-color: #e6e6e6;
+    font-weight: 600;
+}
+
+.users-groups-icon {
+    margin-right: 7px;
+}

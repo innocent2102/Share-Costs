@@ -1,0 +1,39 @@
+<!-- Logo -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="container-fluid btn-info">
+            <h2 id="logo">ShareCosts</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Lewa kolumna -->
+        <div class="col-md-2 clear-padding">
+            <div class="list-group side-bar">
+
+                <ul>
+                    <a class="list-group-item list-group-item-action list-header">Grupy</a>
+                    <a href="#" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
+                        <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}
+                    </a>
+                </ul>
+
+                <ul>
+                    <a class="list-group-item list-group-item-action list-header">Użytkownicy</a>
+                    <a href="# " class="list-group-item list-group-item-action" *ngFor="let user of usersList">
+                        <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}
+                    </a>
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- Prawa kolumna -->
+        <div class="col-md-10 table-bordered">
+            prawa kolumna
+        </div>
+
+    </div>
+</div>
