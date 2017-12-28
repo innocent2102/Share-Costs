@@ -27,7 +27,7 @@ export class GroupsService {
 
         return this._http.post(
             'http://gorlewskim.pl/share-costs-api/groups/create.php',
-            newGroup,
+            {'name' : newGroup.name},
             options
         ).map(res => res.json());
     }

@@ -14,18 +14,23 @@ import { GroupsService } from './groups/groups.service';
   styleUrls: ['./app.component.css'],
   providers: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
     usersList: Iuser[];
     groupsList: Igroup[];
 
     newGroupForm: FormGroup;
+    newUserForm: FormGroup;
 
     constructor(private _usersService: UsersService,
         private _groupsService: GroupsService,
         private _formBuilder: FormBuilder) {
             this.newGroupForm = _formBuilder.group({
                 name: ['', Validators.required]
+            });
+            this.newUserForm = _formBuilder.group({
+                name: ['', Validators.required],
+                email: ['', Validators.required],
             });
     }
 
@@ -43,8 +48,28 @@ export class AppComponent {
     removeGroup(groupId) {
         this._groupsService.removeGroup(groupId)
             .subscribe(
-                 product => {
-                    console.log(product);
+                 user => {
+                    console.log(user);
+                 },
+                 error => console.log(error)
+             );
+    }
+    addNewUser() {
+        this._usersService.insertToUsersList(this.newUserForm.value)
+            .subscribe(
+                group => {
+                    alert('Użytkownik dodany!');
+                    console.log(this.newUserForm);
+                },
+                error => console.log(error)
+            );
+    }
+
+    removeUser(userId) {
+        this._usersService.removeUser(userId)
+            .subscribe(
+                 user => {
+                    console.log(user);
                  },
                  error => console.log(error)
              );

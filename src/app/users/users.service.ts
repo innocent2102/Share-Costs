@@ -16,4 +16,29 @@ export class UsersService {
             .map(res => res.json());
     }
 
+    insertToUsersList(newUser): Observable<Iuser> {
+
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+
+        return this._http.post(
+            'http://gorlewskim.pl/share-costs-api/users/create.php',
+            newUser,
+            options
+        ).map(res => res.json());
+    }
+
+    removeUser(userId) {
+
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+
+        return this._http.post(
+            'http://gorlewskim.pl/share-costs-api/users/delete.php',
+            { id: userId },
+            options
+        ).map(res => res.json());
+    }
+
+
 }

@@ -13,6 +13,7 @@ body {
 #logo {
     text-align: center;
     padding: 10px;
+    margin-bottom: 0px;
 }
 
 .side-bar ul {

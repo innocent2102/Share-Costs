@@ -7,10 +7,12 @@ import { HttpModule } from '@angular/http';
 import { GroupsService } from './groups/groups.service';
 
 import { AppComponent } from './app.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
