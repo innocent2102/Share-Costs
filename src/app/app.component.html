@@ -11,29 +11,7 @@
     <div class="row">
         <!-- Lewa kolumna -->
         <div class="col-md-2 clear-padding">
-            <div class="list-group side-bar">
-
-                <ul>
-                    <a class="list-group-item list-group-item-action list-header">Grupy
-                        <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
-                    </a>
-
-                    <a [routerLink]="['/groups', group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
-                        <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}<i (click)="removeGroup(group.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
-                    </a>
-                </ul>
-
-                <ul>
-                    <a class="list-group-item list-group-item-action list-header">Użytkownicy
-                        <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
-                    </a>
-
-                    <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
-                        <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}<i (click)="removeUser(user.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
-                    </a>
-                </ul>
-
-            </div>
+            <app-menu></app-menu>
         </div>
 
         <!-- Prawa kolumna -->
@@ -41,58 +19,5 @@
             <router-outlet></router-outlet>
         </div>
 
-    </div>
-</div>
-
-<!-- Dodaj grupę Modal -->
-<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <form [formGroup]="newGroupForm" (ngSubmit)="addNewGroup()">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modelTitleId">Dodaj grupę:</h4>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa..." required>
-                        <div *ngIf="newGroupForm.get('name').touched && newGroupForm.get('name').hasError('required')" class="alert alert-danger">
-                            Name is required.
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Dodaj użytkownika Modal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <form [formGroup]="newUserForm" (ngSubmit)="addNewUser()">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modelTitleId">Dodaj użytkownika:</h4>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required>
-                        <input type="text" formControlName="email" class="form-control" name="email" id="" aria-describedby="helpId" placeholder="Email..." required>
-                        <div *ngIf="newUserForm.get('name').touched && newUserForm.get('name').hasError('required')" class="alert alert-danger">
-                            Name is required.
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
-                </div>
-            </div>
-        </form>
     </div>
 </div>
