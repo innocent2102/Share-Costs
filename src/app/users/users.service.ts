@@ -21,8 +21,8 @@ export class UsersService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
-        return this._http.post(
-            'http://gorlewskim.pl/share-costs-api/users/create.php',
+        return this._http
+            .post('http://gorlewskim.pl/share-costs-api/users/create.php',
             newUser,
             options
         ).map(res => res.json());

@@ -32,7 +32,7 @@ export class GroupsService {
         ).map(res => res.json());
     }
 
-    removeGroup(groupId) {
+    removeGroup(groupId): Observable<Igroup> {
 
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });

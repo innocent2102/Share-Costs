@@ -21,7 +21,7 @@ import { MenuComponent } from './menu/menu.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UsersService, GroupsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

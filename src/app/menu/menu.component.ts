@@ -4,12 +4,12 @@ import { UsersService } from '../users/users.service';
 import { Igroup } from '../groups/igroup';
 import { GroupsService } from '../groups/groups.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styles: []
 })
 export class MenuComponent implements OnInit {
 
@@ -52,6 +52,11 @@ export class MenuComponent implements OnInit {
              );
     }
     addNewUser() {
+      console.log("newgrouform.value");
+      console.log(this.newUserForm.value);
+      console.log("newgroupForm");
+      console.log(this.newUserForm);
+
         this._usersService.insertToUsersList(this.newUserForm.value)
             .subscribe(
                 group => {
@@ -71,11 +76,6 @@ export class MenuComponent implements OnInit {
                  error => console.log(error)
              );
     }
-
-
-
-
-
 
   ngOnInit() {
         this._usersService.getUsersList()

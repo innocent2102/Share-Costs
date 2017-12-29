@@ -36,7 +36,7 @@
                 <!--Content-->
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa..." required>
+                        <input [maxLength]=14 type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa..." required>
                         <div *ngIf="newGroupForm.get('name').touched && newGroupForm.get('name').hasError('required')" class="alert alert-danger">
                             Name is required.
                         </div>
@@ -68,7 +68,7 @@
                 <!--Content-->
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required>
+                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required><br>
                         <input type="text" formControlName="email" class="form-control" name="email" id="" aria-describedby="helpId" placeholder="Email..." required>
                         <div *ngIf="newUserForm.get('name').touched && newUserForm.get('name').hasError('required')" class="alert alert-danger">
                             Name is required.
