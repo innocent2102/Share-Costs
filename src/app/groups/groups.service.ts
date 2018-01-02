@@ -1,35 +1,45 @@
+
 import { Injectable } from '@angular/core';
 import { Igroup } from './igroup';
 import { Observable } from 'rxjs/observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
 
 @Injectable()
 export class GroupsService {
 
     constructor(private _http: Http) { }
 
-    getGroupsList(): Observable<Igroup[]> {
-        return this._http
+    // private subject: Subject<any> = new ReplaySubject<any>(1);
+    // get $getSubject(): Observable<any> {
+    //     return this.subject.asObservable();
+    // }
+
+    getGroupsList() {
+       return this._http
             .get('http://gorlewskim.pl/share-costs-api/groups/read.php')
             .map(res => res.json());
     }
 
-    insertToGroupList(newGroup): Observable<Igroup> {
+    private handleError(error: Response) {
+        console.error(error);
+        const message = 'Error status code ${error.status} at ${error.url}';
+        return Observable.throw(message);
+    }
+
+    insertToGroupList(newGroup: Igroup): Observable<Igroup> {
 
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
-        console.log(headers);
-        console.log(options);
-        console.log(newGroup.name);
-
         return this._http.post(
             'http://gorlewskim.pl/share-costs-api/groups/create.php',
-            {'name' : newGroup.name},
+            newGroup,
             options
-        ).map(res => res.json());
+        ).map(res => res.json() as Igroup);
     }
 
     removeGroup(groupId): Observable<Igroup> {

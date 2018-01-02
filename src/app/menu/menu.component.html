@@ -71,7 +71,7 @@
                         <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required><br>
                         <input type="text" formControlName="email" class="form-control" name="email" id="" aria-describedby="helpId" placeholder="Email..." required>
                         <div *ngIf="newUserForm.get('name').touched && newUserForm.get('name').hasError('required')" class="alert alert-danger">
-                            Name is required.
+                            Name and email are required.
                         </div>
                     </div>
                 </div>

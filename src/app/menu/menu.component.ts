@@ -5,7 +5,7 @@ import { Igroup } from '../groups/igroup';
 import { GroupsService } from '../groups/groups.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-
+import 'rxjs/add/operator/mergeMap';
 
 @Component({
   selector: 'app-menu',
@@ -13,80 +13,94 @@ import { Observable } from 'rxjs/Observable';
 })
 export class MenuComponent implements OnInit {
 
-    usersList: Iuser[];
-    groupsList: Igroup[];
+    usersList: Observable <Iuser[]>;
+    groupsList: any;
+    postGroupList: any;
 
     newGroupForm: FormGroup;
     newUserForm: FormGroup;
 
+    errorMessage: string;
+
     constructor(private _usersService: UsersService,
         private _groupsService: GroupsService,
-        private _formBuilder: FormBuilder) {
-            this.newGroupForm = _formBuilder.group({
-                name: ['', Validators.required]
-            });
-            this.newUserForm = _formBuilder.group({
-                name: ['', Validators.required],
-                email: ['', Validators.required],
-            });
+        private _formBuilder: FormBuilder) { }
+
+    refreshUsersList() {
+      this._usersService.getUsersList()
+        .subscribe(users =>
+            this.usersList = users['records'],
+            error => this.errorMessage = <any>error
+        );
+    }
+
+    refreshGroupsList() {
+        this._groupsService.getGroupsList()
+        .subscribe(groups =>
+            this.groupsList = groups['records'],
+            error => this.errorMessage = <any>error
+        );
     }
 
     addNewGroup() {
         this._groupsService.insertToGroupList(this.newGroupForm.value)
-            .subscribe(
-                group => {
-                    alert('Grupa dodana!');
-                    console.log(this.newGroupForm);
+        .subscribe(
+            response => {
+                alert('Grupa dodana!');
+                    console.log(response);
+                    this.refreshGroupsList();
                 },
-                error => console.log(error)
+            error => console.log(error)
             );
     }
 
     removeGroup(groupId) {
         this._groupsService.removeGroup(groupId)
             .subscribe(
-                 user => {
-                    console.log(user);
-                 },
-                 error => console.log(error)
-             );
-    }
-    addNewUser() {
-      console.log("newgrouform.value");
-      console.log(this.newUserForm.value);
-      console.log("newgroupForm");
-      console.log(this.newUserForm);
-
-        this._usersService.insertToUsersList(this.newUserForm.value)
-            .subscribe(
-                group => {
-                    alert('Użytkownik dodany!');
-                    console.log(this.newUserForm);
+                response => {
+                console.log(response);
+                this.refreshGroupsList();
                 },
                 error => console.log(error)
             );
     }
 
+    addNewUser() {
+        this._usersService.insertToUsersList(this.newUserForm.value)
+            .subscribe(
+              response => {
+                    alert('Użytkownik dodany!');
+                    console.log(this.newUserForm);
+                    this.refreshUsersList();
+                  },
+                     error => console.log(error)
+        );
+    }
+
     removeUser(userId) {
         this._usersService.removeUser(userId)
             .subscribe(
-                 user => {
-                    console.log(user);
-                 },
-                 error => console.log(error)
-             );
+              response => {
+                    console.log(response);
+                    this.refreshUsersList();
+                },
+                error => console.log(error)
+            );
     }
 
-  ngOnInit() {
-        this._usersService.getUsersList()
-        .subscribe(users =>
-            this.usersList = users['records']
-        );
-        this._groupsService.getGroupsList()
-        .subscribe(groups =>
-            this.groupsList = groups['records']
-        );
+    ngOnInit() {
+        this.refreshUsersList();
+        this.refreshGroupsList();
 
-     }
+        this.newGroupForm = this._formBuilder.group({
+            name: ['', Validators.required]
+        });
+
+        this.newUserForm = this._formBuilder.group({
+            name: ['', Validators.required],
+            email: ['', Validators.required],
+        });
+
+    }
 
 }
