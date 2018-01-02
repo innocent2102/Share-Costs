@@ -1,3 +1,18 @@
 <p>
     groups works!
 </p>
+
+<div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
+    <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
+        <div class="bill-border"></div>
+        <div class="pull-left container-fluid bill-style-left">
+            <span class="center-block text-center bill-style-day">{{expense.date | date:'dd'}}</span>
+            <span class="center-block bill-style-month">{{expense.date | date:'MMM'}}</span>
+        </div>
+        <div class="container-fluid">
+            <span class="bill-style-right">{{expense.name}}</span>
+            <span class="bill-delete fa fa-times pull-right"></span>
+        </div>
+        <div class="bill-border"></div>
+    </div>
+</div>

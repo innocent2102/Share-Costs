@@ -2,21 +2,23 @@
 
     <ul>
         <a class="list-group-item list-group-item-action list-header">Grupy
-            <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
+          <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
         </a>
 
         <a [routerLink]="['/groups', group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
-            <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}<i (click)="removeGroup(group.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+            <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}
+            <i (click)="removeGroup(group.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>
     </ul>
 
     <ul>
         <a class="list-group-item list-group-item-action list-header">Użytkownicy
-            <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
-        </a>
+      <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
+    </a>
 
         <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
-            <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}<i (click)="removeUser(user.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+            <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}
+            <i (click)="removeUser(user.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>
     </ul>
 
@@ -68,7 +70,8 @@
                 <!--Content-->
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required><br>
+                        <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required>
+                        <br>
                         <input type="text" formControlName="email" class="form-control" name="email" id="" aria-describedby="helpId" placeholder="Email..." required>
                         <div *ngIf="newUserForm.get('name').touched && newUserForm.get('name').hasError('required')" class="alert alert-danger">
                             Name and email are required.

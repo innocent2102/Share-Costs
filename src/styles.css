@@ -49,3 +49,61 @@ body {
     line-height: 22px;
     cursor: pointer;
 }
+
+.bill-style-day {
+    font-size: 20px;
+}
+
+.bill-style-right {
+    font-size: 18px;
+    line-height: 3;
+    padding-left: 15px;
+}
+
+.bill-style-left {
+    border-left: solid 3px lightgrey;
+    border-right: solid 3px lightgrey;
+    font-weight: 700;
+    width: 65px;
+}
+
+.bill-border {
+    color: lightgray;
+    border: 1px solid lightgrey;
+    opacity: 0.3;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.bill-style {
+    margin-top: 5px;
+    margin-left: 3px;
+    opacity: 0.9;
+}
+
+.bill-style:hover {
+    color: rgb(44, 162, 198);
+    opacity: 1;
+}
+
+.bill-style:hover .bill-style-left {
+    color: black;
+    border-left: rgb(44, 162, 198) 3px solid;
+    opacity: 1;
+}
+
+.bill-delete {
+    color: palevioletred;
+    line-height: 3;
+    font-size: 18px;
+}
+
+.debt-amount {
+    color: green;
+    font-weight: 700;
+}
+
+.owe-amount {
+    color: red;
+    font-weight: 700;
+}
