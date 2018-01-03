@@ -13,8 +13,8 @@
 
     <ul>
         <a class="list-group-item list-group-item-action list-header">Użytkownicy
-      <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
-    </a>
+        <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
+      </a>
 
         <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}

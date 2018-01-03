@@ -16,6 +16,11 @@ export class GroupsService {
             .map(res => res.json());
     }
 
+    getUsersGroupsList(): Observable<any> {
+      return this._http.get('http://gorlewskim.pl/share-costs-api/usersGroups/read.php')
+        .map(res => res.json());
+    }
+
     private handleError(error: Response) {
         console.error(error);
         const message = 'Error status code ${error.status} at ${error.url}';

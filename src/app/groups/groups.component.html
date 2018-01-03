@@ -1,18 +1,44 @@
-<p>
-    groups works!
-</p>
+<div class="container">
+    <div class="row">
 
-<div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
-    <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
-        <div class="bill-border"></div>
-        <div class="pull-left container-fluid bill-style-left">
-            <span class="center-block text-center bill-style-day">{{expense.date | date:'dd'}}</span>
-            <span class="center-block bill-style-month">{{expense.date | date:'MMM'}}</span>
+        <!--Content-->
+        <div class="col-md-8 table-bordered">
+            <button class="btn btn-succes">Dodaj rachunek</button>
+            <div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
+                <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
+                    <div class="bill-border"></div>
+                    <div class="pull-left container-fluid bill-style-left">
+                        <span class="center-block text-center bill-style-day">{{expense.date | date:'dd'}}</span>
+                        <span class="center-block bill-style-month">{{expense.date | date:'MMM'}}</span>
+                    </div>
+                    <div class="container-fluid">
+                        <span class="bill-style-right">{{expense.name}}</span>
+                        <span class="bill-delete fa fa-times pull-right"></span>
+                    </div>
+                    <div class="bill-border"></div>
+                </div>
+            </div>
         </div>
-        <div class="container-fluid">
-            <span class="bill-style-right">{{expense.name}}</span>
-            <span class="bill-delete fa fa-times pull-right"></span>
+
+        <!--Prawa kolumna-->
+        <div class="col-md-4 table-bordered">
+            <div class="list-group side-bar">
+
+                <!--Grupy-->
+                <a class="list-group-item list-group-item-action list-header">Należą
+                  <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
+                </a>
+
+                <ng-container *ngFor="let user of usersGroupsList">
+                    <ng-container *ngIf="user.groupId == groupId">
+                        <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action">
+                            <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.userName}}
+                            <i (click)="removeUser(user.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+                        </a>
+                    </ng-container>
+                </ng-container>
+
+            </div>
         </div>
-        <div class="bill-border"></div>
     </div>
 </div>
