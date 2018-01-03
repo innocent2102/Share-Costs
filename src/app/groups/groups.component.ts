@@ -61,9 +61,16 @@ export class GroupsComponent implements OnInit {
               console.log(response);
               this.refreshUsersGroupsList();
           },
-      error => console.log(error)
-      );
+      error => console.log(error));
+  }
 
+  removeUserGroup(userId) {
+    this._groupsService.removeUserGroup(this.groupId, userId)
+      .subscribe(response => {
+        console.log(response);
+        this.refreshUsersGroupsList();
+       },
+      error => console.log(error));
   }
 
 

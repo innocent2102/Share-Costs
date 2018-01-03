@@ -78,10 +78,6 @@ export class MenuComponent implements OnInit {
       );
   }
 
-  removeUserGroup() {
-
-  }
-
   addNewUser() {
     this._usersService.insertToUsersList(this.newUserForm.value)
       .subscribe(

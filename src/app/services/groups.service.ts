@@ -9,57 +9,55 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class GroupsService {
 
-    constructor(private _http: Http) { }
+  headers = new Headers({ 'Content-Type': 'application/json' });
+  options = new RequestOptions({ headers: this.headers });
 
-    getGroupsList(): Observable<Igroup> {
-       return this._http
-            .get('http://gorlewskim.pl/share-costs-api/groups/read.php')
-            .map(res => res.json());
-    }
+  constructor(private _http: Http) { }
 
-    getUsersGroupsList(): Observable<any> {
-      return this._http.get('http://gorlewskim.pl/share-costs-api/usersgroups/read.php')
-        .map(res => res.json());
-    }
+  getGroupsList(): Observable<Igroup> {
+    return this._http
+      .get('http://gorlewskim.pl/share-costs-api/groups/read.php')
+      .map(res => res.json());
+  }
 
-    private handleError(error: Response) {
-        console.error(error);
-        const message = 'Error status code ${error.status} at ${error.url}';
-        return Observable.throw(message);
-    }
+  getUsersGroupsList(): Observable<any> {
+    return this._http.get('http://gorlewskim.pl/share-costs-api/usersgroups/read.php')
+      .map(res => res.json());
+  }
 
-    insertToGroupList(newGroup: Igroup): Observable<Igroup> {
+  private handleError(error: Response) {
+      console.error(error);
+      const message = 'Error status code ${error.status} at ${error.url}';
+      return Observable.throw(message);
+  }
 
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
+  insertToGroupList(newGroup: Igroup): Observable<Igroup> {
+    return this._http.post('http://gorlewskim.pl/share-costs-api/groups/create.php',
+      newGroup,
+      this.options
+    ).map(res => res.json() as Igroup);
+  }
 
-        return this._http.post(
-            'http://gorlewskim.pl/share-costs-api/groups/create.php',
-            newGroup,
-            options
-        ).map(res => res.json() as Igroup);
-    }
+  insertToUsersGroupsList(newUserGroup: Iusergroup): Observable<Iusergroup> {
+    return this._http.post('http://gorlewskim.pl/share-costs-api/usersgroups/create.php',
+      newUserGroup,
+      this.options
+    ).map(res => res.json() as Iusergroup);
+  }
 
-    insertToUsersGroupsList(newUserGroup: Iusergroup): Observable<Iusergroup> {
-      const headers = new Headers({ 'Content-Type': 'application/json' });
-      const options = new RequestOptions({ headers: headers });
+  removeGroup(groupId): Observable<Igroup> {
+    return this._http.post('http://gorlewskim.pl/share-costs-api/groups/delete.php',
+      { id: groupId },
+      this.options
+    ).map(res => res.json());
+  }
 
-      return this._http.post('http://gorlewskim.pl/share-costs-api/usersgroups/create.php',
-        newUserGroup
-      ).map(res => res.json() as Iusergroup);
-    }
-
-    removeGroup(groupId): Observable<Igroup> {
-
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
-
-        return this._http.post(
-            'http://gorlewskim.pl/share-costs-api/groups/delete.php',
-            { id: groupId },
-            options
-        ).map(res => res.json());
-    }
+  removeUserGroup(groupId, userId) {
+    return this._http.post('http://gorlewskim.pl/share-costs-api/usersgroups/delete.php',
+      {groupId: groupId, userId: userId},
+      this.options
+    ).map(res => res.json());
+  }
 
 
 
