@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { Igroup } from '../groups/igroup';
+import { Iusergroup } from '../groups/iusergroup';
 import { Observable } from 'rxjs/observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -17,7 +18,7 @@ export class GroupsService {
     }
 
     getUsersGroupsList(): Observable<any> {
-      return this._http.get('http://gorlewskim.pl/share-costs-api/usersGroups/read.php')
+      return this._http.get('http://gorlewskim.pl/share-costs-api/usersgroups/read.php')
         .map(res => res.json());
     }
 
@@ -37,6 +38,15 @@ export class GroupsService {
             newGroup,
             options
         ).map(res => res.json() as Igroup);
+    }
+
+    insertToUsersGroupsList(newUserGroup: Iusergroup): Observable<Iusergroup> {
+      const headers = new Headers({ 'Content-Type': 'application/json' });
+      const options = new RequestOptions({ headers: headers });
+
+      return this._http.post('http://gorlewskim.pl/share-costs-api/usersgroups/create.php',
+        newUserGroup
+      ).map(res => res.json() as Iusergroup);
     }
 
     removeGroup(groupId): Observable<Igroup> {

@@ -3,7 +3,7 @@
 
         <!--Content-->
         <div class="col-md-8 table-bordered">
-            <button class="btn btn-succes">Dodaj rachunek</button>
+            <button class="btn btn-succes" (click)="addNewUserGroup()">Dodaj rachunek</button>
             <div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
                 <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
                     <div class="bill-border"></div>
@@ -26,7 +26,7 @@
 
                 <!--Grupy-->
                 <a class="list-group-item list-group-item-action list-header">Należą:
-                  <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
+                  <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserGroupModal"></i>
                 </a>
                 <ul>
                     <ng-container *ngFor="let user of usersGroupsList">
@@ -38,5 +38,46 @@
                 </ul>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Dodaj użytkownika Modal -->
+<div class="modal fade" id="addUserGroupModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <form [formGroup]="newUserGroupForm" (ngSubmit)="addNewUserGroup()">
+
+            <div class="modal-content">
+                <!--Nagłowek-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelTitleId">Dodaj użytkownika:</h4>
+                </div>
+
+                <!--Content-->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!-- <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa użytkownika..." required>
+                        <br>
+                        <input type="text" formControlName="email" class="form-control" name="email" id="" aria-describedby="helpId" placeholder="Email..." required>
+                        <div *ngIf="newUserGroupForm.get('name').touched && newUserGroupForm.get('name').hasError('required')" class="alert alert-danger">
+                            Name and email are required.
+                        </div> -->
+                        <select formControlName="userId" name="userId" class="form-control" name="userId">
+                          <ng-container *ngFor="let user of usersList">
+                            <option value="{{user.id}}">
+                                {{user.name}}
+                            </option>
+                          </ng-container>
+                        </select>
+                    </div>
+                </div>
+
+                <!--Stopka-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                </div>
+
+            </div>
+        </form>
     </div>
 </div>
