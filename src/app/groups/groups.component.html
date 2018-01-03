@@ -25,19 +25,17 @@
             <div class="list-group side-bar">
 
                 <!--Grupy-->
-                <a class="list-group-item list-group-item-action list-header">Należą
+                <a class="list-group-item list-group-item-action list-header">Należą:
                   <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
                 </a>
-
-                <ng-container *ngFor="let user of usersGroupsList">
-                    <ng-container *ngIf="user.groupId == groupId">
-                        <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action">
+                <ul>
+                    <ng-container *ngFor="let user of usersGroupsList">
+                        <a [routerLink]="['/users', user.id]" class="list-group-item list-group-item-action" *ngIf="user.groupId == groupId">
                             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.userName}}
                             <i (click)="removeUser(user.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
                         </a>
                     </ng-container>
-                </ng-container>
-
+                </ul>
             </div>
         </div>
     </div>
