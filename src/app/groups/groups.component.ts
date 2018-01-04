@@ -17,6 +17,7 @@ export class GroupsComponent implements OnInit {
   groupId: number;
   usersGroupsList: any;
   newUserGroupForm: FormGroup;
+  groupName: string;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -30,6 +31,7 @@ export class GroupsComponent implements OnInit {
     this.refreshUsersGroupsList();
     this.refreshUsersList();
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
+    this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
     console.log(this.usersGroupsList);
   }
 

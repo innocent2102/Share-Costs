@@ -5,7 +5,7 @@
           <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
         </a>
 
-        <a [routerLink]="['/groups', group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
+        <a [routerLink]="['/groups', group.name, group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
             <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}
             <i (click)="removeGroup(group.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>
