@@ -14,10 +14,12 @@ export class GroupsComponent implements OnInit {
 
   expensesList: Iexpenses;
   usersList;
-  groupId: number;
   usersGroupsList: any;
   newUserGroupForm: FormGroup;
+  newBillForm: FormGroup;
   groupName: string;
+  groupId: number;
+  test: string;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -30,9 +32,26 @@ export class GroupsComponent implements OnInit {
     this.refreshExpensesList();
     this.refreshUsersGroupsList();
     this.refreshUsersList();
+
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
     this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
-    console.log(this.usersGroupsList);
+
+    this.newBillForm = this._formBuilder.group({
+      value1: ['', Validators.required],
+      value2: ['', Validators.required],
+    });
+
+  }
+
+
+
+ showName(sda) {
+   console.log(sda);
+ }
+
+  addNewBill() {
+    this.showName(this.test);
+
   }
 
   refreshExpensesList() {

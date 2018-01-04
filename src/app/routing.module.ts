@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 const appRoutes: Routes = [
     { path: 'app-root', component: AppComponent },
     { path: 'groups/:groupName/:groupId', component: GroupsComponent },
-    { path: 'users/:userId', component: UsersComponent },
+    { path: 'users/:userName/:userId', component: UsersComponent },
     { path: '', redirectTo: '/groups/2', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
