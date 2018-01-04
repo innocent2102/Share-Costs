@@ -13,13 +13,12 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 export class GroupsComponent implements OnInit {
 
   expensesList: Iexpenses;
-  usersList;
+  usersList: any;
   usersGroupsList: any;
   newUserGroupForm: FormGroup;
-  newBillForm: FormGroup;
+  // newBillForm: FormGroup;
   groupName: string;
   groupId: number;
-  test: string;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -36,22 +35,10 @@ export class GroupsComponent implements OnInit {
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
     this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
 
-    this.newBillForm = this._formBuilder.group({
-      value1: ['', Validators.required],
-      value2: ['', Validators.required],
-    });
-
-  }
-
-
-
- showName(sda) {
-   console.log(sda);
- }
-
-  addNewBill() {
-    this.showName(this.test);
-
+    // this.newBillForm = this._formBuilder.group({
+    //   value: ['', Validators.required],
+    //   value2: ['', Validators.required],
+    // });
   }
 
   refreshExpensesList() {

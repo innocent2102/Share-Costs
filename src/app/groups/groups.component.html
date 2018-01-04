@@ -3,6 +3,7 @@
 
         <!--Content-->
         <div class="col-md-8 table-bordered">
+            <button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
             <button type="button" class="btn btn-primary" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
             <div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
                 <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
@@ -55,7 +56,8 @@
                 <!--Content-->
                 <div class="modal-body">
                     <div class="form-group">
-                        <select formControlName="userId" name="userId" class="form-control">
+                        <label for="userId">Wybierz z listy:</label>
+                        <select formControlName="userId" class="form-control">
                           <ng-container *ngFor="let user of usersList">
                             <option value="{{user.id}}">
                                 {{user.name}}
@@ -68,7 +70,7 @@
                 <!--Stopka-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!newUserGroupForm.value.userId">Zapisz</button>
                 </div>
 
             </div>

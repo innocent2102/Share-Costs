@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Iuser } from '../users/iuser';
 import { UsersService } from '../services/users.service';
 import { Igroup } from '../groups/igroup';
@@ -6,6 +6,7 @@ import { GroupsService } from '../services/groups.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
+import { MinLengthValidator } from '@angular/forms/src/directives/validators';
 
 @Component({
   selector: 'app-menu',
@@ -28,7 +29,9 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.refreshUsersList();
     this.refreshGroupsList();
+
   }
+
 
   refreshUsersList() {
     this._usersService.getUsersList()
@@ -36,20 +39,18 @@ export class MenuComponent implements OnInit {
         this.usersList = users['records'],
         error => this.errorMessage = <any>error
       );
-
-    this.newUserForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-    });
+      this.newUserForm = this._formBuilder.group({
+        name: ['', Validators.required],
+        email: ['', Validators.required],
+      });
   }
 
   refreshGroupsList() {
     this._groupsService.getGroupsList()
-    .subscribe(groups =>
-      this.groupsList = groups['records'],
-      error => this.errorMessage = <any>error
+      .subscribe(groups =>
+        this.groupsList = groups['records'],
+        error => this.errorMessage = <any>error
     );
-
     this.newGroupForm = this._formBuilder.group({
       name: ['', Validators.required]
     });
@@ -72,6 +73,7 @@ export class MenuComponent implements OnInit {
       .subscribe(
         response => {
         console.log(response);
+        alert('Grupa usunięta!');
         this.refreshGroupsList();
         },
         error => console.log(error)
@@ -95,6 +97,7 @@ export class MenuComponent implements OnInit {
       .subscribe(
         response => {
               console.log(response);
+              alert('Użytkownik usunięty!');
               this.refreshUsersList();
           },
           error => console.log(error)

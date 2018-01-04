@@ -7,7 +7,6 @@ import { UsersService } from '../services/users.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styles: []
 })
 export class UsersComponent implements OnInit {
   usersGroupsList: any;
@@ -22,7 +21,6 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.refreshUsersGroupsList();
     this.refreshUsersList();
-
     this._activatedRoute.params.subscribe(g => this.userId = g['userId']);
   }
 
@@ -34,6 +32,14 @@ export class UsersComponent implements OnInit {
   refreshUsersList() {
     this._usersService.getUsersList()
       .subscribe(data => this.usersList = data['records']);
+  }
+  removeUserGroup(groupId) {
+    this._groupsService.removeUserGroup(groupId, this.userId)
+      .subscribe(response => {
+        console.log(response);
+        this.refreshUsersGroupsList();
+       },
+      error => console.log(error));
   }
 
 

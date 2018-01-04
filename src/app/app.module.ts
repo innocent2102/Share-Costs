@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { ExpensesService } from './services/expenses.service';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,

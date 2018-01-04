@@ -3,7 +3,7 @@
 
         <!--Content-->
         <div class="col-md-8 table-bordered">
-            <h1>content</h1>
+            <h1>userComponent</h1>
         </div>
 
         <!--Prawa kolumna-->
@@ -11,17 +11,16 @@
             <div class="list-group side-bar">
 
                 <!--Grupy-->
-                <a class="list-group-item list-group-item-action list-header">Należą :
-                <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj nowego użytkownika do grupy" data-toggle="modal" data-target="#addUserGroupModal"></i>
-              </a>
+                <a class="list-group-item list-group-item-action list-header">Należy do :</a>
                 <ul>
                     <ng-container *ngFor="let user of usersGroupsList">
                         <a class="list-group-item list-group-item-action" *ngIf="user.userId == userId">
                             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.groupName}}
-                            <i (click)="removeUserGroup(user.userId)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+                            <i (click)="removeUserGroup(user.groupId)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
                         </a>
                     </ng-container>
                 </ul>
+
             </div>
         </div>
     </div>
