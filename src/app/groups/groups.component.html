@@ -3,7 +3,6 @@
 
         <!--Content-->
         <div class="col-md-8 table-bordered">
-            <button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
             <button type="button" class="btn btn-primary" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
             <div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
                 <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
@@ -25,7 +24,7 @@
         <div class="col-md-4 table-bordered">
             <div class="list-group side-bar">
 
-                <!--Użytwkonicy-->
+                <!--Lista użytkownikow dla danej grupy-->
                 <a class="list-group-item list-group-item-action list-header">{{groupName}}:
                   <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj nowego użytkownika do grupy" data-toggle="modal" data-target="#addUserGroupModal"></i>
                 </a>
@@ -80,7 +79,7 @@
 
 <!-- Dodaj rachunek Modal -->
 <div class="modal fade" id="addBillModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <form [formGroup]="newBillForm" (ngSubmit)="addNewBill()">
 
             <div class="modal-content">
@@ -92,12 +91,34 @@
                 <!--Content-->
                 <div class="modal-body">
                     <div class="form-group">
-                        <!-- <input type="text" formControlName="name" class="form-control" name="name" id="" aria-describedby="helpId" placeholder="Nazwa rachunku..." required>
-                        <br>
-                        <input type="text" formControlName="email" class="form-control" name="email" id="" aria-describedby="helpId" placeholder="Email..." required>
-                        <div *ngIf="newBillForm.get('name').touched && newBillForm.get('name').hasError('required')" class="alert alert-danger">
-                            Name and email are required.
-                        </div> -->
+
+                        <div class="container">
+                            <label>Nazwa: </label><input type="text" /><br />
+                            <label>Kwota: </label><input width="50" type="number" />
+                        </div>
+
+                        <div class="container-fluid">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Imię: </th>
+                                        <th>Zapłacił: </th>
+                                        <th>Winien: </th>
+                                    </tr>
+                                </thead>
+
+                                <!--Dodawanie rachunku-->
+                                <tbody>
+                                    <ng-container *ngFor="let user of usersGroupsList">
+                                        <tr *ngIf="user.groupId === groupId">
+                                            <td>{{user.userName}}</td>
+                                            <td><input type="number" /></td>
+                                            <td><input type="number" /></td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
