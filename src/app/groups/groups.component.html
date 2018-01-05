@@ -13,7 +13,7 @@
                     </div>
                     <div class="container-fluid">
                         <span class="bill-style-right">{{expense.name}}</span>
-                        <span class="bill-delete fa fa-times pull-right"></span>
+                        <span (click)="removeExpense(expense.id)" class="bill-delete fa fa-times pull-right"></span>
                     </div>
                     <div class="bill-border"></div>
                 </div>

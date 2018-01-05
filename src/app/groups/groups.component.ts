@@ -92,6 +92,15 @@ export class GroupsComponent implements OnInit {
       error => console.log(error));
   }
 
+  removeExpense(userId) {
+    this._expensesService.deleteExpense(userId)
+      .subscribe(response => {
+        console.log('Expense usunięty');
+        this.refreshExpensesList();
+      },
+      error => console.log(error));
+  }
+
   test() {
     let paidSum = 0;
     let debtSum = 0;
