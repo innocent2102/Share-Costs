@@ -2,7 +2,8 @@ export interface Iowes {
   userId: number;
   userName: string;
   owesAmount: number;
-  owerName: string;
+  debtorName: string;
+  debtorId: string;
   expenseId: number;
   expenseName: string;
 }

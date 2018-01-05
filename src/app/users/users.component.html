@@ -7,7 +7,7 @@
             {{userId}}
             <div *ngFor="let owe of owesList">
                 <ng-container *ngIf="owe.userId === userId">
-                    {{owe.userName}} {{owe.owesAmount}} {{owe.owerName}}
+                    {{owe.userName}} {{owe.owesAmount}} {{owe.debtorName}}
                 </ng-container>
             </div>
         </div>

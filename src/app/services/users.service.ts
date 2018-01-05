@@ -8,6 +8,9 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class UsersService {
 
+  headers = new Headers({ 'Content-Type': 'application/json' });
+  options = new RequestOptions({ headers: this.headers });
+
   constructor(private _http: Http) { }
 
     getUsersList(): Observable<Iuser[]> {
@@ -17,26 +20,18 @@ export class UsersService {
     }
 
     insertToUsersList(newUser): Observable<Iuser> {
-
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
-
         return this._http
             .post('http://gorlewskim.pl/share-costs-api/users/create.php',
             newUser,
-            options
+            this.options
         ).map(res => res.json());
     }
 
     removeUser(userId) {
-
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
-
         return this._http.post(
             'http://gorlewskim.pl/share-costs-api/users/delete.php',
             { id: userId },
-            options
+            this.options
         ).map(res => res.json());
     }
 

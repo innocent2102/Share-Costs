@@ -24,6 +24,7 @@ export class GroupsComponent implements OnInit {
   groupId: number;
   newBillName: string;
   newBillAmount: number;
+  newBill;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -47,6 +48,50 @@ export class GroupsComponent implements OnInit {
       .subscribe(data => this.expensesList = data['records']);
   }
 
+  refreshUsersGroupsList() {
+    this._groupsService.getUsersGroupsList()
+      .subscribe(data => this.usersGroupsList = data['records']);
+      this.newUserGroupForm = this._formBuilder.group({
+        userId: ['', Validators.required],
+        groupId: ['', Validators.required],
+      });
+  }
+
+  refreshUsersList() {
+    this._usersService.getUsersList()
+      .subscribe(data => this.usersList = data['records']);
+  }
+
+  addNewExpense(newBill) {
+    this._expensesService.insertExpensesList(newBill)
+      .subscribe(response => {
+        console.log('rachunek dodany');
+        this.refreshExpensesList();
+      },
+      error => console.log(error));
+  }
+
+  addNewUserGroup() {
+    this.newUserGroupForm.value.groupId = this.groupId;
+    this._groupsService.insertToUsersGroupsList(this.newUserGroupForm.value)
+    .subscribe(
+      response => {
+        console.log(this.newUserGroupForm.value);
+              console.log(response);
+              this.refreshUsersGroupsList();
+          },
+      error => console.log(error));
+  }
+
+  removeUserGroup(userId) {
+    this._groupsService.removeUserGroup(this.groupId, userId)
+      .subscribe(response => {
+        console.log(response);
+        this.refreshUsersGroupsList();
+       },
+      error => console.log(error));
+  }
+
   test() {
     let paidSum = 0;
     let debtSum = 0;
@@ -57,10 +102,11 @@ export class GroupsComponent implements OnInit {
         debtSum += Number(this.usersGroupsList[i].debt);
         this.usersGroupsList[i].balans = this.usersGroupsList[i].paid - this.usersGroupsList[i].debt;
       }
-
     }
+    this.newBill = {name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
+    this.addNewExpense(this.newBill);
     const bilans = paidSum - debtSum;
-    if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName != '') {
+    if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName !== '') {
       for (let i = 0; i < this.usersGroupsList.length; i++) {
         // Sprawdzamy czy użytkowniky należy do grupy
         if (this.usersGroupsList[i].groupId === this.groupId ) {
@@ -94,41 +140,6 @@ export class GroupsComponent implements OnInit {
       alert('Kwota rachunku nie zgadza się z podanymi kwotami w formularzu, lub bilans tych kwot jest nierowny!');
     }
 
-  }
-
-  refreshUsersGroupsList() {
-    this._groupsService.getUsersGroupsList()
-      .subscribe(data => this.usersGroupsList = data['records']);
-      this.newUserGroupForm = this._formBuilder.group({
-        userId: ['', Validators.required],
-        groupId: ['', Validators.required],
-      });
-  }
-
-  refreshUsersList() {
-    this._usersService.getUsersList()
-      .subscribe(data => this.usersList = data['records']);
-  }
-
-  addNewUserGroup() {
-    this.newUserGroupForm.value.groupId = this.groupId;
-    this._groupsService.insertToUsersGroupsList(this.newUserGroupForm.value)
-    .subscribe(
-      response => {
-        console.log(this.newUserGroupForm.value);
-              console.log(response);
-              this.refreshUsersGroupsList();
-          },
-      error => console.log(error));
-  }
-
-  removeUserGroup(userId) {
-    this._groupsService.removeUserGroup(this.groupId, userId)
-      .subscribe(response => {
-        console.log(response);
-        this.refreshUsersGroupsList();
-       },
-      error => console.log(error));
   }
 
 
