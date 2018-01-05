@@ -1,11 +1,12 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Iexpenses } from '../groups/iexpenses';
+import { ExpensesService } from '../services/expenses.service';
 import { GroupsService } from '../services/groups.service';
 import { UsersService } from '../services/users.service';
-import { ExpensesService } from '../services/expenses.service';
-import { Iexpenses } from '../groups/iexpenses';
 import { Iusergroup } from './iusergroup';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class GroupsComponent implements OnInit {
   newUserGroupForm: FormGroup;
   groupName: string;
   groupId: number;
+  newBillName: string;
+  newBillAmount: number;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -35,7 +38,7 @@ export class GroupsComponent implements OnInit {
     this.refreshUsersList();
 
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
-    this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
+    this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);    
 
   }
 
@@ -52,15 +55,43 @@ export class GroupsComponent implements OnInit {
       if (this.usersGroupsList[i].groupId === this.groupId ) {
         paidSum += Number(this.usersGroupsList[i].paid);
         debtSum += Number(this.usersGroupsList[i].debt);
+        this.usersGroupsList[i].balans = this.usersGroupsList[i].paid - this.usersGroupsList[i].debt;
       }
-    }
-    const bilans = paidSum + (debtSum * -1);
-    console.log('Bilans: ' + bilans);
-    for (let i = 0; i < this.usersGroupsList.length; i++) {
-      if (this.usersGroupsList[i].groupId === this.groupId ) {
-        // Sprawdzamy czy uzytkownik wydał mniej
 
+    }
+    const bilans = paidSum - debtSum;
+    if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName != '') {
+      for (let i = 0; i < this.usersGroupsList.length; i++) {
+        // Sprawdzamy czy użytkowniky należy do grupy
+        if (this.usersGroupsList[i].groupId === this.groupId ) {
+          // Sprawdzamy czy uzytkownik zaplacił mniej niż wydał
+          if (this.usersGroupsList[i].balans < 0) {
+            console.log(this.usersGroupsList[i].userName + ' zapłacił mniej niż powinien, więc szukamy kto zapłacił więcej');
+            // Szukamy osoby ktora zapłaciła więcej
+            for (let j = 0; j < this.usersGroupsList.length; j++) {
+              if (this.usersGroupsList[j].balans > 0) {
+                console.log(this.usersGroupsList[j].userName + ' zapłacił więcej niż powinien');
+                //sprawdzamy czy kwota platnika pokrywa kwotę osoby winnej
+                if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1) {
+                  console.log(`${this.usersGroupsList[i].userName} jest winien ${this.usersGroupsList[i].balans * -1} ${this.usersGroupsList[j].userName}`);
+                  this.usersGroupsList[j].balans -= this.usersGroupsList[i].balans * -1;
+                  this.usersGroupsList[i].balans = 0;
+                  console.log(`${this.usersGroupsList[j].userName} balans wynosi ${this.usersGroupsList[j].balans}`);
+                  console.log(`${this.usersGroupsList[i].userName} balans wynosi ${this.usersGroupsList[i].balans}`);
+                }else {
+                  console.log(`${this.usersGroupsList[i].userName} jest winien ${this.usersGroupsList[j].balans} użytownikowi ${this.usersGroupsList[j].userName}`);
+                  this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
+                  this.usersGroupsList[j].balans = 0;
+                  console.log(this.usersGroupsList[i].userName + ' balans wynosi ' + this.usersGroupsList[i].balans);
+                  console.log(this.usersGroupsList[j].userName + ' balans wynosi ' + this.usersGroupsList[j].balans);
+                }
+              }
+            }
+          }
+        }
       }
+    }else {
+      alert('Kwota rachunku nie zgadza się z podanymi kwotami w formularzu, lub bilans tych kwot jest nierowny!');
     }
 
   }
