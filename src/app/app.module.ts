@@ -22,7 +22,7 @@ import { ExpensesService } from './services/expenses.service';
     RoutingModule,
     HttpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [ExpensesService, GroupsService, UsersService],
   bootstrap: [AppComponent]

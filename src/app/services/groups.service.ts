@@ -20,7 +20,7 @@ export class GroupsService {
       .map(res => res.json());
   }
 
-  getUsersGroupsList(): Observable<any> {
+  getUsersGroupsList(): Observable<Iusergroup> {
     return this._http.get('http://gorlewskim.pl/share-costs-api/usersgroups/read.php')
       .map(res => res.json());
   }

@@ -4,19 +4,21 @@ import { GroupsService } from '../services/groups.service';
 import { UsersService } from '../services/users.service';
 import { ExpensesService } from '../services/expenses.service';
 import { Iexpenses } from '../groups/iexpenses';
+import { Iusergroup } from './iusergroup';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
+
 })
 export class GroupsComponent implements OnInit {
 
   expensesList: Iexpenses;
-  usersList: any;
+  usersList: Iusergroup;
   usersGroupsList: any;
   newUserGroupForm: FormGroup;
-  // newBillForm: FormGroup;
   groupName: string;
   groupId: number;
 
@@ -35,15 +37,32 @@ export class GroupsComponent implements OnInit {
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
     this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
 
-    // this.newBillForm = this._formBuilder.group({
-    //   value: ['', Validators.required],
-    //   value2: ['', Validators.required],
-    // });
   }
 
   refreshExpensesList() {
     this._expensesService.getExpensesList()
       .subscribe(data => this.expensesList = data['records']);
+  }
+
+  test() {
+    let paidSum = 0;
+    let debtSum = 0;
+
+    for (let i = 0; i < this.usersGroupsList.length; i++) {
+      if (this.usersGroupsList[i].groupId === this.groupId ) {
+        paidSum += Number(this.usersGroupsList[i].paid);
+        debtSum += Number(this.usersGroupsList[i].debt);
+      }
+    }
+    const bilans = paidSum + (debtSum * -1);
+    console.log('Bilans: ' + bilans);
+    for (let i = 0; i < this.usersGroupsList.length; i++) {
+      if (this.usersGroupsList[i].groupId === this.groupId ) {
+        // Sprawdzamy czy uzytkownik wydał mniej
+
+      }
+    }
+
   }
 
   refreshUsersGroupsList() {

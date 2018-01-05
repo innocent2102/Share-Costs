@@ -16,22 +16,19 @@ export class MenuComponent implements OnInit {
 
   usersList: Observable <Iuser[]>;
   groupsList: Observable <Igroup>;
-
   newGroupForm: FormGroup;
   newUserForm: FormGroup;
-
   errorMessage: string;
+  newGroupId: number;
 
   constructor(private _usersService: UsersService,
-    private _groupsService: GroupsService,
-    private _formBuilder: FormBuilder) { }
+  private _groupsService: GroupsService,
+  private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.refreshUsersList();
     this.refreshGroupsList();
-
   }
-
 
   refreshUsersList() {
     this._usersService.getUsersList()
@@ -68,18 +65,6 @@ export class MenuComponent implements OnInit {
         );
   }
 
-  removeGroup(groupId) {
-    this._groupsService.removeGroup(groupId)
-      .subscribe(
-        response => {
-        console.log(response);
-        alert('Grupa usunięta!');
-        this.refreshGroupsList();
-        },
-        error => console.log(error)
-      );
-  }
-
   addNewUser() {
     this._usersService.insertToUsersList(this.newUserForm.value)
       .subscribe(
@@ -92,16 +77,30 @@ export class MenuComponent implements OnInit {
     );
   }
 
+  removeGroup(groupId) {
+    this._groupsService.removeGroup(groupId)
+      .subscribe(
+        response => {
+        console.log(response);
+        this.refreshGroupsList();
+        },
+        error => console.log(error)
+      );
+  }
+
   removeUser(userId) {
     this._usersService.removeUser(userId)
       .subscribe(
         response => {
               console.log(response);
-              alert('Użytkownik usunięty!');
               this.refreshUsersList();
           },
           error => console.log(error)
       );
+  }
+
+  redirectGroupId(id: number) {
+    this.newGroupId = id;
   }
 
 }

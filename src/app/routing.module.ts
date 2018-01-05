@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 const appRoutes: Routes = [
     { path: 'app-root', component: AppComponent },
     { path: 'groups/:groupName/:groupId', component: GroupsComponent },
@@ -20,7 +21,7 @@ const appRoutes: Routes = [
     CommonModule,
     RouterModule.forRoot(appRoutes, {useHash: true}),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     RouterModule

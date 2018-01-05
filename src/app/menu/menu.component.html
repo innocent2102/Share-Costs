@@ -6,7 +6,7 @@
 
         <a [routerLink]="['/groups', group.name, group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
             <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}
-            <i (click)="removeGroup(group.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+            <i data-target="#removeGroupModal" (click)="redirectGroupId(group.id)" data-toggle="modal" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>
     </ul>
 
@@ -17,7 +17,7 @@
 
         <a [routerLink]="['/users', user.name, user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}
-            <i (click)="removeUser(user.id)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+            <i (click)="redirectGroupId(user.id)" data-toggle="modal" data-target="#removeUserModal" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>
     </ul>
 
@@ -26,7 +26,7 @@
 <!-- Dodaj grupę Modal -->
 <div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
-        <form [formGroup]="newGroupForm" (ngSubmit)="addNewGroup()">
+        <form [formGroup]="newGroupForm">
             <div class="modal-content">
 
                 <!--Nagłowek-->
@@ -47,7 +47,7 @@
                 <!--Stopka-->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="!newGroupForm.value.name">Zapisz</button>
+                    <button type="button" class="btn btn-primary" (click)="addNewGroup()" [disabled]="!newGroupForm.value.name">Zapisz</button>
                 </div>
 
             </div>
@@ -84,6 +84,48 @@
                     <button type="submit" class="btn btn-primary" [disabled]="!newUserForm.value.name || !newUserForm.value.email">Zapisz</button>
                 </div>
 
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Usuń grupę Modal -->
+<div class="modal fade" id="removeGroupModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <form>
+            <div class="modal-content">
+
+                <!--Nagłowek-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelTitleId">Czy na pewo chcesz usunąć grupę?</h4>
+                </div>
+
+                <!--Stopka-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                    <button type="button" class="btn btn-primary" (click)="removeGroup(newGroupId)" data-dismiss="modal"> Tak</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Usuń użytkownika Modal -->
+<div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <form>
+            <div class="modal-content">
+
+                <!--Nagłowek-->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modelTitleId">Czy na pewo chcesz usunąć użytkownika?</h4>
+                </div>
+
+                <!--Stopka-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                    <button type="button" class="btn btn-primary" (click)="removeUser(newGroupId)" data-dismiss="modal"> Tak</button>
+                </div>
             </div>
         </form>
     </div>
