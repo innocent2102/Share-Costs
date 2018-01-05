@@ -1,8 +1,8 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Iuser } from '../users/iuser';
 import { UsersService } from '../services/users.service';
 import { Igroup } from '../groups/igroup';
-import { GroupsService } from '../services/groups.service';
+import { GroupsService } from '../groups/groups.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';

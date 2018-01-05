@@ -4,6 +4,12 @@
         <!--Content-->
         <div class="col-md-8 table-bordered">
             <h1>userComponent</h1>
+            {{userId}}
+            <div *ngFor="let owe of owesList">
+                <ng-container *ngIf="owe.userId === userId">
+                    {{owe.userName}} {{owe.owesAmount}} {{owe.owerName}}
+                </ng-container>
+            </div>
         </div>
 
         <!--Prawa kolumna-->

@@ -1,8 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { GroupsService } from '../services/groups.service';
+import { GroupsService } from '../groups/groups.service';
 import { UsersService } from '../services/users.service';
-
+import { Iowes} from './iowes';
+import { OwesService } from '../services/owes.service';
 
 @Component({
   selector: 'app-users',
@@ -12,15 +13,18 @@ export class UsersComponent implements OnInit {
   usersGroupsList: any;
   usersList;
   userId: number;
+  owesList: Iowes;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _groupsService: GroupsService,
     private _usersService: UsersService,
+    private _owesListService: OwesService,
     private _router: Router) { }
 
   ngOnInit() {
     this.refreshUsersGroupsList();
     this.refreshUsersList();
+    this.refreshOwesList();
     this._activatedRoute.params.subscribe(g => this.userId = g['userId']);
   }
 
@@ -33,6 +37,12 @@ export class UsersComponent implements OnInit {
     this._usersService.getUsersList()
       .subscribe(data => this.usersList = data['records']);
   }
+
+  refreshOwesList() {
+    this._owesListService.getOwesList()
+      .subscribe(data => this.owesList = data['records']);
+  }
+
   removeUserGroup(groupId) {
     this._groupsService.removeUserGroup(groupId, this.userId)
       .subscribe(response => {

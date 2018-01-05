@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Iexpenses } from '../groups/iexpenses';
 import { ExpensesService } from '../services/expenses.service';
-import { GroupsService } from '../services/groups.service';
+import { GroupsService } from './groups.service';
 import { UsersService } from '../services/users.service';
 import { Iusergroup } from './iusergroup';
 
@@ -38,7 +38,7 @@ export class GroupsComponent implements OnInit {
     this.refreshUsersList();
 
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
-    this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);    
+    this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
 
   }
 
