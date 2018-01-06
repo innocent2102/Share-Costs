@@ -6,6 +6,7 @@ import { Iexpenses } from '../groups/iexpenses';
 import { ExpensesService } from '../services/expenses.service';
 import { GroupsService } from './groups.service';
 import { UsersService } from '../services/users.service';
+import { OwesService } from '../services/owes.service';
 import { Iusergroup } from './iusergroup';
 
 
@@ -16,7 +17,7 @@ import { Iusergroup } from './iusergroup';
 })
 export class GroupsComponent implements OnInit {
 
-  expensesList: Iexpenses;
+  expensesList: any;
   usersList: Iusergroup;
   usersGroupsList: any;
   newUserGroupForm: FormGroup;
@@ -24,10 +25,10 @@ export class GroupsComponent implements OnInit {
   groupId: number;
   newBillName: string;
   newBillAmount: number;
-  newBill;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
+    private _oweService: OwesService,
     private _groupsService: GroupsService,
     private _usersService: UsersService,
     private _expensesService: ExpensesService,
@@ -37,10 +38,8 @@ export class GroupsComponent implements OnInit {
     this.refreshExpensesList();
     this.refreshUsersGroupsList();
     this.refreshUsersList();
-
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
     this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
-
   }
 
   refreshExpensesList() {
@@ -92,6 +91,15 @@ export class GroupsComponent implements OnInit {
       error => console.log(error));
   }
 
+  addNewOwe(newOwe) {
+    this._oweService.insertOweToList(newOwe)
+      .subscribe(response => {
+        console.log('Dług dodany');
+        this._oweService.getOwesList();
+      },
+    error => console.log(error));
+  }
+
   removeExpense(userId) {
     this._expensesService.deleteExpense(userId)
       .subscribe(response => {
@@ -99,6 +107,11 @@ export class GroupsComponent implements OnInit {
         this.refreshExpensesList();
       },
       error => console.log(error));
+  }
+
+
+  click() {
+    console.log(this.expensesList[this.expensesList.length - 1].id);
   }
 
   test() {
@@ -112,10 +125,12 @@ export class GroupsComponent implements OnInit {
         this.usersGroupsList[i].balans = this.usersGroupsList[i].paid - this.usersGroupsList[i].debt;
       }
     }
-    this.newBill = {name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
-    this.addNewExpense(this.newBill);
+
+
+
     const bilans = paidSum - debtSum;
     if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName !== '') {
+
       for (let i = 0; i < this.usersGroupsList.length; i++) {
         // Sprawdzamy czy użytkowniky należy do grupy
         if (this.usersGroupsList[i].groupId === this.groupId ) {
@@ -126,20 +141,31 @@ export class GroupsComponent implements OnInit {
             for (let j = 0; j < this.usersGroupsList.length; j++) {
               if (this.usersGroupsList[j].balans > 0) {
                 console.log(this.usersGroupsList[j].userName + ' zapłacił więcej niż powinien');
-                //sprawdzamy czy kwota platnika pokrywa kwotę osoby winnej
+                // sprawdzamy czy kwota platnika pokrywa kwotę osoby winnej
                 if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1) {
-                  console.log(`${this.usersGroupsList[i].userName} jest winien ${this.usersGroupsList[i].balans * -1} ${this.usersGroupsList[j].userName}`);
+                  const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
+                  amount: (this.usersGroupsList[i].balans * -1), expenseId: (this.expensesList[this.expensesList.length - 1].id)};
+                  console.log('Index expenseListr');
+                  this.addNewOwe(newOwe);
+                  console.log(`${this.usersGroupsList[i].userName}
+                  jest winien ${this.usersGroupsList[i].balans * -1} ${this.usersGroupsList[j].userName}`);
                   this.usersGroupsList[j].balans -= this.usersGroupsList[i].balans * -1;
                   this.usersGroupsList[i].balans = 0;
                   console.log(`${this.usersGroupsList[j].userName} balans wynosi ${this.usersGroupsList[j].balans}`);
                   console.log(`${this.usersGroupsList[i].userName} balans wynosi ${this.usersGroupsList[i].balans}`);
                 }else {
-                  console.log(`${this.usersGroupsList[i].userName} jest winien ${this.usersGroupsList[j].balans} użytownikowi ${this.usersGroupsList[j].userName}`);
+                 const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
+                    amount: this.usersGroupsList[j].balans, expenseId: (this.expensesList[this.expensesList.length - 1].id)};
+                    this.addNewOwe(newOwe);
+                  console.log(`${this.usersGroupsList[i].userName}
+                  jest winien ${this.usersGroupsList[j].balans} użytownikowi ${this.usersGroupsList[j].userName}`);
                   this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
                   this.usersGroupsList[j].balans = 0;
                   console.log(this.usersGroupsList[i].userName + ' balans wynosi ' + this.usersGroupsList[i].balans);
                   console.log(this.usersGroupsList[j].userName + ' balans wynosi ' + this.usersGroupsList[j].balans);
                 }
+                const newBill = {name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
+                this.addNewExpense(newBill);
               }
             }
           }

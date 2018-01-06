@@ -23,6 +23,7 @@ export class ExpensesService {
       this.options
     ).map(res => res.json() as Iexpenses);
   }
+
   deleteExpense(id): Observable<Iexpenses> {
     return this._http.post('http://gorlewskim.pl/share-costs-api/expenses/delete.php',
     { id: id },

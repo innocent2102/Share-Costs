@@ -4,10 +4,9 @@
         <!--Content-->
         <div class="col-md-8 table-bordered">
             <h1>userComponent</h1>
-            {{userId}}
             <div *ngFor="let owe of owesList">
                 <ng-container *ngIf="owe.userId === userId">
-                    {{owe.userName}} {{owe.owesAmount}} {{owe.debtorName}}
+                    {{owe.debtorName}} {{owe.owesAmount}}
                 </ng-container>
             </div>
         </div>
