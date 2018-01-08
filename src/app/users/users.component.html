@@ -1,14 +1,43 @@
 <div class="container">
     <div class="row">
 
-        <!--Content-->
-        <div class="col-md-8 table-bordered">
+        <!--Content długi-->
+        <div class="col-md-8">
             <h1>userComponent</h1>
-            <div *ngFor="let owe of owesList">
-                <ng-container *ngIf="owe.userId === userId">
-                    {{owe.debtorName}} {{owe.owesAmount}}
-                </ng-container>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Należność</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let owe of owesGroupByList">
+                            <tr *ngIf="owe.userId === userId">
+                                <td scope="row">{{owe.debtorName}}</td>
+                                <td class="debt-amount">{{owe.owesAmount}} zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Do oddania</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let owe of owesGroupByList">
+                            <tr *ngIf="userId === owe.debtorId">
+                                <td scope="row">{{owe.userName}}</td>
+                                <td class="owe-amount">{{owe.owesAmount}} zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
 
         <!--Prawa kolumna-->

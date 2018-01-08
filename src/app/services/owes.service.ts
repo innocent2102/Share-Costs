@@ -26,5 +26,11 @@ export class OwesService {
     ).map(res => res.json() as Iowes);
   }
 
+  getOwesGroupByAmountList(): Observable<any> {
+      return this._http
+        .get('http://gorlewskim.pl/share-costs-api/owes/readgroupbyamount.php')
+        .map(res => res.json());
+  }
+
 
 }

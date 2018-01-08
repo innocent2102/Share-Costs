@@ -13,7 +13,8 @@ export class UsersComponent implements OnInit {
   usersGroupsList: any;
   usersList;
   userId: number;
-  owesList: Iowes;
+  owesList: any;
+  owesGroupByList: any;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _groupsService: GroupsService,
@@ -25,7 +26,13 @@ export class UsersComponent implements OnInit {
     this.refreshUsersGroupsList();
     this.refreshUsersList();
     this.refreshOwesList();
+    this.refreshOwesGrouByAmountList();
     this._activatedRoute.params.subscribe(g => this.userId = g['userId']);
+  }
+
+  refreshOwesGrouByAmountList() {
+    this._owesListService.getOwesGroupByAmountList()
+      .subscribe(data => this.owesGroupByList = data['records']);
   }
 
   refreshUsersGroupsList() {
