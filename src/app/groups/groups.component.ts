@@ -8,6 +8,8 @@ import { GroupsService } from './groups.service';
 import { UsersService } from '../services/users.service';
 import { OwesService } from '../services/owes.service';
 import { Iusergroup } from './iusergroup';
+import { Iuser } from '../users/iuser';
+
 
 
 @Component({
@@ -18,8 +20,8 @@ import { Iusergroup } from './iusergroup';
 export class GroupsComponent implements OnInit {
 
   expensesList: any;
-  usersList: Iusergroup;
-  usersGroupsList: any;
+  usersList: Iuser;
+  usersGroupsList;
   newUserGroupForm: FormGroup;
   groupName: string;
   groupId: number;
@@ -109,15 +111,9 @@ export class GroupsComponent implements OnInit {
       error => console.log(error));
   }
 
-
-  click() {
-    console.log(this.expensesList[this.expensesList.length - 1].id);
-  }
-
-  test() {
+  addNewBill() {
     let paidSum = 0;
     let debtSum = 0;
-
     for (let i = 0; i < this.usersGroupsList.length; i++) {
       if (this.usersGroupsList[i].groupId === this.groupId ) {
         paidSum += Number(this.usersGroupsList[i].paid);
@@ -125,52 +121,41 @@ export class GroupsComponent implements OnInit {
         this.usersGroupsList[i].balans = this.usersGroupsList[i].paid - this.usersGroupsList[i].debt;
       }
     }
-
-
-
     const bilans = paidSum - debtSum;
     if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName !== '') {
-
       for (let i = 0; i < this.usersGroupsList.length; i++) {
-        // Sprawdzamy czy użytkowniky należy do grupy
         if (this.usersGroupsList[i].groupId === this.groupId ) {
-          // Sprawdzamy czy uzytkownik zaplacił mniej niż wydał
           if (this.usersGroupsList[i].balans < 0) {
-            console.log(this.usersGroupsList[i].userName + ' zapłacił mniej niż powinien, więc szukamy kto zapłacił więcej');
-            // Szukamy osoby ktora zapłaciła więcej
+            let expenseId;
+              if (this.expensesList) {
+                expenseId = this.expensesList[this.expensesList.length - 1].id;
+              }else {
+                expenseId = 1;
+              }
+            const newBill = {id: expenseId, name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
+            this.addNewExpense(newBill);
             for (let j = 0; j < this.usersGroupsList.length; j++) {
               if (this.usersGroupsList[j].balans > 0) {
-                console.log(this.usersGroupsList[j].userName + ' zapłacił więcej niż powinien');
-                // sprawdzamy czy kwota platnika pokrywa kwotę osoby winnej
+
                 if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1) {
                   const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
-                  amount: (this.usersGroupsList[i].balans * -1), expenseId: (this.expensesList[this.expensesList.length - 1].id)};
-                  console.log('Index expenseListr');
+                  amount: (this.usersGroupsList[i].balans * -1), expenseId: expenseId};
                   this.addNewOwe(newOwe);
-                  console.log(`${this.usersGroupsList[i].userName}
-                  jest winien ${this.usersGroupsList[i].balans * -1} ${this.usersGroupsList[j].userName}`);
                   this.usersGroupsList[j].balans -= this.usersGroupsList[i].balans * -1;
                   this.usersGroupsList[i].balans = 0;
-                  console.log(`${this.usersGroupsList[j].userName} balans wynosi ${this.usersGroupsList[j].balans}`);
-                  console.log(`${this.usersGroupsList[i].userName} balans wynosi ${this.usersGroupsList[i].balans}`);
                 }else {
                  const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
-                    amount: this.usersGroupsList[j].balans, expenseId: (this.expensesList[this.expensesList.length - 1].id)};
+                    amount: this.usersGroupsList[j].balans, expenseId: expenseId};
                     this.addNewOwe(newOwe);
-                  console.log(`${this.usersGroupsList[i].userName}
-                  jest winien ${this.usersGroupsList[j].balans} użytownikowi ${this.usersGroupsList[j].userName}`);
                   this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
                   this.usersGroupsList[j].balans = 0;
-                  console.log(this.usersGroupsList[i].userName + ' balans wynosi ' + this.usersGroupsList[i].balans);
-                  console.log(this.usersGroupsList[j].userName + ' balans wynosi ' + this.usersGroupsList[j].balans);
                 }
-                const newBill = {name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
-                this.addNewExpense(newBill);
               }
             }
           }
         }
       }
+
     }else {
       alert('Kwota rachunku nie zgadza się z podanymi kwotami w formularzu, lub bilans tych kwot jest nierowny!');
     }

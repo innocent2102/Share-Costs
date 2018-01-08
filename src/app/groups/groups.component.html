@@ -3,7 +3,7 @@
 
         <!--Content-->
         <div class="col-md-8 table-bordered">
-            <button type="button" (click)="click()" class="btn btn-primary" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
+            <button type="button" class="btn btn-primary" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
             <div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
                 <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
                     <div class="bill-border"></div>
@@ -95,9 +95,6 @@
                         <label for="billAmount">Kwota: </label><input width="50" f name="billAmount" id="billAmount" type="number" [(ngModel)]="newBillAmount" />
                     </div>
 
-                    <!--Do skasowania-->
-                    <button type="button" name="" id="" class="btn btn-primary" btn-lg btn-block (click)="test()">Test</button>
-
                     <div class="container-fluid">
                         <table class="table table-striped">
                             <thead>
@@ -126,7 +123,7 @@
             <!--Stopka-->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="submit" class="btn btn-primary">Dodaj</button>
+                <button type="button" (click)="addNewBill()" data-dismiss="modal" class="btn btn-primary">Dodaj</button>
             </div>
 
 
