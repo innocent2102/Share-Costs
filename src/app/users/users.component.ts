@@ -15,6 +15,7 @@ export class UsersComponent implements OnInit {
   userId: number;
   owesList: any;
   owesGroupByList: any;
+  userName: string;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _groupsService: GroupsService,
@@ -28,6 +29,7 @@ export class UsersComponent implements OnInit {
     this.refreshOwesList();
     this.refreshOwesGrouByAmountList();
     this._activatedRoute.params.subscribe(g => this.userId = g['userId']);
+    this._activatedRoute.params.subscribe(g => this.userName = g['userName']);
   }
 
   refreshOwesGrouByAmountList() {
