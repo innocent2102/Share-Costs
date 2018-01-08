@@ -11,7 +11,6 @@ import { Iusergroup } from './iusergroup';
 import { Iuser } from '../users/iuser';
 
 
-
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
@@ -102,8 +101,15 @@ export class GroupsComponent implements OnInit {
     error => console.log(error));
   }
 
-  removeExpense(userId) {
-    this._expensesService.deleteExpense(userId)
+  removeExpense(expenseId) {
+    this._oweService.deleteOweByExpenseId(expenseId)
+    .subscribe(response => {
+      console.log('owe usunięty');
+      this._oweService.getOwesList();
+    },
+    error => console.log(error));
+
+    this._expensesService.deleteExpense(expenseId)
       .subscribe(response => {
         console.log('Expense usunięty');
         this.refreshExpensesList();
@@ -128,7 +134,7 @@ export class GroupsComponent implements OnInit {
           if (this.usersGroupsList[i].balans < 0) {
             let expenseId;
               if (this.expensesList) {
-                expenseId = this.expensesList[this.expensesList.length - 1].id;
+                expenseId = this.expensesList[this.expensesList.length - 1].id + 1;
               }else {
                 expenseId = 1;
               }
@@ -145,8 +151,8 @@ export class GroupsComponent implements OnInit {
                   this.usersGroupsList[i].balans = 0;
                 }else {
                  const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
-                    amount: this.usersGroupsList[j].balans, expenseId: expenseId};
-                    this.addNewOwe(newOwe);
+                  amount: this.usersGroupsList[j].balans, expenseId: expenseId};
+                  this.addNewOwe(newOwe);
                   this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
                   this.usersGroupsList[j].balans = 0;
                 }
