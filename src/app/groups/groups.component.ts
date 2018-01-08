@@ -9,6 +9,8 @@ import { UsersService } from '../services/users.service';
 import { OwesService } from '../services/owes.service';
 import { Iusergroup } from './iusergroup';
 import { Iuser } from '../users/iuser';
+import { setTimeout } from 'timers';
+import { map } from 'rxjs/operator/map';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class GroupsComponent implements OnInit {
   groupId: number;
   newBillName: string;
   newBillAmount: number;
+  owesList;
 
   constructor(private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
@@ -39,6 +42,7 @@ export class GroupsComponent implements OnInit {
     this.refreshExpensesList();
     this.refreshUsersGroupsList();
     this.refreshUsersList();
+    this.refreshOwesList();
     this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
     this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
   }
@@ -46,6 +50,11 @@ export class GroupsComponent implements OnInit {
   refreshExpensesList() {
     this._expensesService.getExpensesList()
       .subscribe(data => this.expensesList = data['records']);
+  }
+
+  refreshOwesList() {
+    this._oweService.getOwesList()
+      .subscribe(data => this.owesList = data['records']);
   }
 
   refreshUsersGroupsList() {
@@ -65,7 +74,7 @@ export class GroupsComponent implements OnInit {
   addNewExpense(newBill) {
     this._expensesService.insertExpensesList(newBill)
       .subscribe(response => {
-        console.log('rachunek dodany');
+        console.log('1');
         this.refreshExpensesList();
       },
       error => console.log(error));
@@ -93,28 +102,30 @@ export class GroupsComponent implements OnInit {
   }
 
   addNewOwe(newOwe) {
-    this._oweService.insertOweToList(newOwe)
+    setTimeout(() => {
+      this._oweService.insertOweToList(newOwe)
       .subscribe(response => {
-        console.log('Dług dodany');
-        this._oweService.getOwesList();
+        console.log('2');
+        this.refreshOwesList();
       },
     error => console.log(error));
+    }, 2000);
+
   }
 
   removeExpense(expenseId) {
     this._oweService.deleteOweByExpenseId(expenseId)
     .subscribe(response => {
       console.log('owe usunięty');
-      this._oweService.getOwesList();
-    },
-    error => console.log(error));
-
-    this._expensesService.deleteExpense(expenseId)
-      .subscribe(response => {
+      this.refreshOwesList();
+      this._expensesService.deleteExpense(expenseId)
+      .subscribe(callback => {
         console.log('Expense usunięty');
         this.refreshExpensesList();
       },
       error => console.log(error));
+    },
+    error => console.log(error));
   }
 
   addNewBill() {
@@ -127,31 +138,28 @@ export class GroupsComponent implements OnInit {
         this.usersGroupsList[i].balans = this.usersGroupsList[i].paid - this.usersGroupsList[i].debt;
       }
     }
+    let expenseId: number;
+              if (this.expensesList) {
+                expenseId = Number(this.expensesList[this.expensesList.length - 1].id) + 1;
+              }else {
+                expenseId = 1;
+              }
+              console.log(expenseId);
+
     const bilans = paidSum - debtSum;
     if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName !== '') {
       for (let i = 0; i < this.usersGroupsList.length; i++) {
         if (this.usersGroupsList[i].groupId === this.groupId ) {
           if (this.usersGroupsList[i].balans < 0) {
-            let expenseId;
-              if (this.expensesList) {
-                expenseId = this.expensesList[this.expensesList.length - 1].id + 1;
-              }else {
-                expenseId = 1;
-              }
-            const newBill = {id: expenseId, name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
-            this.addNewExpense(newBill);
             for (let j = 0; j < this.usersGroupsList.length; j++) {
               if (this.usersGroupsList[j].balans > 0) {
-
-                if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1) {
-                  const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
+                const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
                   amount: (this.usersGroupsList[i].balans * -1), expenseId: expenseId};
+                if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1) {
                   this.addNewOwe(newOwe);
                   this.usersGroupsList[j].balans -= this.usersGroupsList[i].balans * -1;
                   this.usersGroupsList[i].balans = 0;
                 }else {
-                 const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
-                  amount: this.usersGroupsList[j].balans, expenseId: expenseId};
                   this.addNewOwe(newOwe);
                   this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
                   this.usersGroupsList[j].balans = 0;
@@ -161,7 +169,8 @@ export class GroupsComponent implements OnInit {
           }
         }
       }
-
+      const newBill = {id: expenseId, name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
+            this.addNewExpense(newBill);
     }else {
       alert('Kwota rachunku nie zgadza się z podanymi kwotami w formularzu, lub bilans tych kwot jest nierowny!');
     }

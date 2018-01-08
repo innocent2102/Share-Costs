@@ -24,6 +24,7 @@ export class OwesService {
       newOwe,
       this.options
     ).map(res => res.json() as Iowes);
+
   }
 
   getOwesGroupByAmountList(): Observable<any> {
