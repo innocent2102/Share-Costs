@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { GroupsService } from './groups/groups.service';
-import { UsersService } from './services/users.service';
+import { GroupsService } from './groups/shared/groups.service';
+import { UsersService } from './users/shared/users.service';
 
 @Component({
   selector: 'app-root',

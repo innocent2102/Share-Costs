@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RoutingModule } from './/routing.module';
-import { UsersService } from './services/users.service';
+import { RoutingModule } from './routing.module';
+import { UsersService } from './users/shared/users.service';
 import { HttpModule } from '@angular/http';
-import { GroupsService } from './groups/groups.service';
+import { GroupsService } from './groups/shared/groups.service';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';

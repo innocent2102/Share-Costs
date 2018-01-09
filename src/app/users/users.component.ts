@@ -1,8 +1,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { GroupsService } from '../groups/groups.service';
-import { UsersService } from '../services/users.service';
-import { Iowes} from './iowes';
+import { GroupsService } from '../groups/shared/groups.service';
+import { UsersService } from './shared/users.service';
+import { Iowes} from './shared/iowes';
 import { OwesService } from '../services/owes.service';
 
 @Component({

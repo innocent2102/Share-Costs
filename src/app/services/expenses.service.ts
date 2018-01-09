@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Iexpenses } from '../groups/iexpenses';
+import { Iexpenses } from '../groups//shared/iexpenses';
 import { Observable } from 'rxjs/observable';
 
 @Injectable()

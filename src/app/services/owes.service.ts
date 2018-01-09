@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Iowes} from '../users/iowes';
+import { Iowes} from '../users/shared/iowes';
 import { Observable } from 'rxjs/observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';

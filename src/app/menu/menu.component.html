@@ -1,7 +1,7 @@
 <div class="list-group side-bar">
     <ul>
         <a class="list-group-item list-group-item-action list-header">Grupy
-          <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
+            <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
         </a>
 
         <a [routerLink]="['/groups', group.name, group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
