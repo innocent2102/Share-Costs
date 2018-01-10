@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Iexpenses } from '../groups//shared/iexpenses';
 import { Observable } from 'rxjs/observable';
+
+import { Iexpenses } from './iexpenses';
 
 @Injectable()
 export class ExpensesService {
@@ -14,7 +15,7 @@ export class ExpensesService {
 
   getExpensesList(): Observable<Iexpenses> {
     return this._http.get('http://gorlewskim.pl/share-costs-api/expenses/read.php')
-      .map(res => res.json());
+      .map(res => res.json() as Iexpenses);
   }
 
   insertExpensesList(newBill): Observable<Iexpenses> {
@@ -28,7 +29,7 @@ export class ExpensesService {
     return this._http.post('http://gorlewskim.pl/share-costs-api/expenses/delete.php',
     { id: id },
             this.options
-        ).map(res => res.json());
+        ).map(res => res.json() as Iexpenses);
   }
 
 }

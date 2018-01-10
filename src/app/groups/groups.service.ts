@@ -1,10 +1,10 @@
-
 import { Injectable } from '@angular/core';
-import { Igroup } from './igroup';
-import { Iusergroup } from './iusergroup';
 import { Observable } from 'rxjs/observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+
+import { Igroup } from './igroup';
+import { Iusergroup } from '../users/shared/iusergroup';
 
 @Injectable()
 export class GroupsService {
@@ -52,7 +52,7 @@ export class GroupsService {
         ).map(res => res.json());
     }
 
-    removeUserGroup(groupId, userId) {
+    removeUserGroup(groupId, userId): Observable<Iusergroup> {
         return this._http.post('http://gorlewskim.pl/share-costs-api/usersgroups/delete.php',
         {groupId: groupId, userId: userId},
         this.options

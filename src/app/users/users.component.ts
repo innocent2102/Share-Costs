@@ -1,9 +1,11 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { GroupsService } from '../groups/shared/groups.service';
+
+import { GroupsService } from '../groups/groups.service';
 import { UsersService } from './shared/users.service';
-import { Iowes} from './shared/iowes';
-import { OwesService } from '../services/owes.service';
+import { Iowes} from '../owes/iowes';
+import { OwesService } from '../owes/owes.service';
+import { Iuser } from './shared/iuser';
 
 @Component({
   selector: 'app-users',
@@ -11,49 +13,49 @@ import { OwesService } from '../services/owes.service';
 })
 export class UsersComponent implements OnInit {
   usersGroupsList: any;
-  usersList;
+  usersList: Iuser;
   userId: number;
-  owesList: any;
-  owesGroupByList: any;
+  owesList: Iowes;
+  owesGroupByList;
   userName: string;
 
-  constructor(private _activatedRoute: ActivatedRoute,
-    private _groupsService: GroupsService,
-    private _usersService: UsersService,
-    private _owesListService: OwesService,
-    private _router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute,
+    private groupsService: GroupsService,
+    private usersService: UsersService,
+    private owesListService: OwesService,
+    private router: Router) { }
 
   ngOnInit() {
     this.refreshUsersGroupsList();
     this.refreshUsersList();
     this.refreshOwesList();
     this.refreshOwesGrouByAmountList();
-    this._activatedRoute.params.subscribe(g => this.userId = g['userId']);
-    this._activatedRoute.params.subscribe(g => this.userName = g['userName']);
+    this.activatedRoute.params.subscribe(g => this.userId = g['userId']);
+    this.activatedRoute.params.subscribe(g => this.userName = g['userName']);
   }
 
   refreshOwesGrouByAmountList() {
-    this._owesListService.getOwesGroupByAmountList()
+    this.owesListService.getOwesGroupByAmountList()
       .subscribe(data => this.owesGroupByList = data['records']);
   }
 
   refreshUsersGroupsList() {
-    this._groupsService.getUsersGroupsList()
+    this.groupsService.getUsersGroupsList()
       .subscribe(data => this.usersGroupsList = data['records']);
   }
 
   refreshUsersList() {
-    this._usersService.getUsersList()
+    this.usersService.getUsersList()
       .subscribe(data => this.usersList = data['records']);
   }
 
   refreshOwesList() {
-    this._owesListService.getOwesList()
+    this.owesListService.getOwesList()
       .subscribe(data => this.owesList = data['records']);
   }
 
   removeUserGroup(groupId) {
-    this._groupsService.removeUserGroup(groupId, this.userId)
+    this.groupsService.removeUserGroup(groupId, this.userId)
       .subscribe(response => {
         console.log(response);
         this.refreshUsersGroupsList();

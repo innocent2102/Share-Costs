@@ -1,23 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Iexpenses } from './shared/iexpenses';
-import { ExpensesService } from '../services/expenses.service';
-import { GroupsService } from './shared/groups.service';
-import { UsersService } from '../users/shared/users.service';
-import { OwesService } from '../services/owes.service';
-import { Iusergroup } from './shared/iusergroup';
-import { Iuser } from '../users/shared/iuser';
 import { map } from 'rxjs/operator/map';
 
+import { ExpensesService } from './shared/expenses.service';
+import { GroupsService } from '../groups/groups.service';
+import { OwesService } from '../owes/owes.service';
+import { UsersService } from '../users/shared/users.service';
+import { Iusergroup } from '../users/shared/iusergroup';
+import { Iuser } from '../users/shared/iuser';
+import { Iexpenses } from './shared/iexpenses';
+
 @Component({
-  selector: 'app-groups',
-  templateUrl: './groups.component.html',
-
+  selector: 'app-expenses',
+  templateUrl: './expenses.component.html'
 })
-export class GroupsComponent implements OnInit {
+export class ExpensesComponent implements OnInit {
 
-    expensesList: any;
+    expensesList;
+    owesList;
     usersList: Iuser;
     usersGroupsList;
     newUserGroupForm: FormGroup;
@@ -25,52 +26,51 @@ export class GroupsComponent implements OnInit {
     groupId: number;
     newBillName: string;
     newBillAmount: number;
-    owesList;
 
-    constructor(private _activatedRoute: ActivatedRoute,
-        private _formBuilder: FormBuilder,
-        private _oweService: OwesService,
-        private _groupsService: GroupsService,
-        private _usersService: UsersService,
-        private _expensesService: ExpensesService,
-        private _router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute,
+        private formBuilder: FormBuilder,
+        private oweService: OwesService,
+        private groupsService: GroupsService,
+        private usersService: UsersService,
+        private expensesService: ExpensesService,
+        private router: Router) { }
 
     ngOnInit() {
         this.refreshExpensesList();
         this.refreshUsersGroupsList();
         this.refreshUsersList();
         this.refreshOwesList();
-        this._activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
-        this._activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
+        this.activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
+        this.activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
     }
 
     refreshExpensesList() {
-        this._expensesService.getExpensesList()
+        this.expensesService.getExpensesList()
         .subscribe(data => this.expensesList = data['records']);
     }
 
     refreshOwesList() {
-        this._oweService.getOwesList()
+        this.oweService.getOwesList()
         .subscribe(data => this.owesList = data['records']);
     }
 
     refreshUsersGroupsList() {
-        this._groupsService.getUsersGroupsList()
+        this.groupsService.getUsersGroupsList()
         .subscribe(data => this.usersGroupsList = data['records']);
-        this.newUserGroupForm = this._formBuilder.group({
+        this.newUserGroupForm = this.formBuilder.group({
             userId: ['', Validators.required],
             groupId: ['', Validators.required],
         });
     }
 
     refreshUsersList() {
-        this._usersService.getUsersList()
+        this.usersService.getUsersList()
         .subscribe(data => this.usersList = data['records']);
     }
 
     addNewUserGroup() {
         this.newUserGroupForm.value.groupId = this.groupId;
-        this._groupsService.insertToUsersGroupsList(this.newUserGroupForm.value)
+        this.groupsService.insertToUsersGroupsList(this.newUserGroupForm.value)
         .subscribe(
         response => {
             console.log(this.newUserGroupForm.value);
@@ -81,7 +81,7 @@ export class GroupsComponent implements OnInit {
     }
 
     removeUserGroup(userId) {
-        this._groupsService.removeUserGroup(this.groupId, userId)
+        this.groupsService.removeUserGroup(this.groupId, userId)
         .subscribe(response => {
             console.log(response);
             this.refreshUsersGroupsList();
@@ -90,7 +90,7 @@ export class GroupsComponent implements OnInit {
     }
 
     addNewOwe(newOwe) {
-        this._oweService.insertOweToList(newOwe)
+        this.oweService.insertOweToList(newOwe)
         .subscribe(response => {
             this.refreshOwesList();
         },
@@ -98,10 +98,10 @@ export class GroupsComponent implements OnInit {
     }
 
     removeExpense(expenseId) {
-        this._oweService.deleteOweByExpenseId(expenseId)
+        this.oweService.deleteOweByExpenseId(expenseId)
         .subscribe(response => {
             this.refreshOwesList();
-            this._expensesService.deleteExpense(expenseId)
+            this.expensesService.deleteExpense(expenseId)
             .subscribe(callback => {
                 this.refreshExpensesList();
             },
@@ -129,7 +129,7 @@ export class GroupsComponent implements OnInit {
         const newBill = {id: expenseId, name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
         const bilans = paidSum - debtSum;
         if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName !== '') {
-            this._expensesService.insertExpensesList(newBill)
+            this.expensesService.insertExpensesList(newBill)
                 .subscribe(response => {
                     for (let i = 0; i < this.usersGroupsList.length; i++) {
                         if (this.usersGroupsList[i].groupId === this.groupId ) {
@@ -151,7 +151,7 @@ export class GroupsComponent implements OnInit {
                                 }
                             }
                         }
-                    }                    
+                    }
                     this.refreshExpensesList();
                 },
             error => console.log(error));

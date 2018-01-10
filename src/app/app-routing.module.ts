@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+
 import { UsersComponent } from './users/users.component';
-import { GroupsComponent } from './groups/groups.component';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { ExpensesComponent } from './expenses/expenses.component';
 
 const appRoutes: Routes = [
     { path: 'app-root', component: AppComponent },
-    { path: 'groups/:groupName/:groupId', component: GroupsComponent },
+    { path: 'expenses/:groupName/:groupId', component: ExpensesComponent },
     { path: 'users/:userName/:userId', component: UsersComponent },
     { path: '', redirectTo: '/groups/2', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
@@ -28,8 +28,8 @@ const appRoutes: Routes = [
   ],
   declarations: [
     PageNotFoundComponent,
-    GroupsComponent,
-    UsersComponent
+    UsersComponent,
+    ExpensesComponent,
 ]
 })
-export class RoutingModule { }
+export class AppRoutingModule { }

@@ -1,10 +1,12 @@
+<!--Left-bar-->
 <div class="list-group side-bar">
+
     <ul>
         <a class="list-group-item list-group-item-action list-header">Grupy
             <i class="fa fa-users pull-right" aria-hidden="true" title="Dodaj grupę" data-toggle="modal" data-target="#addGroupModal"></i>
         </a>
 
-        <a [routerLink]="['/groups', group.name, group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
+        <a [routerLink]="['/expenses', group.name, group.id]" *ngFor="let group of groupsList" class="list-group-item list-group-item-action">
             <i class="fa fa-tag users-groups-icon" aria-hidden="true"></i>{{group.name}}
             <i data-target="#removeGroupModal" (click)="redirectGroupId(group.id)" data-toggle="modal" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>
@@ -12,8 +14,8 @@
 
     <ul>
         <a class="list-group-item list-group-item-action list-header">Użytkownicy
-        <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
-      </a>
+            <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
+        </a>
 
         <a [routerLink]="['/users', user.name, user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}
@@ -59,8 +61,8 @@
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <form [formGroup]="newUserForm" (ngSubmit)="addNewUser()">
-
             <div class="modal-content">
+
                 <!--Nagłowek-->
                 <div class="modal-header">
                     <h4 class="modal-title" id="modelTitleId">Dodaj użytkownika:</h4>
@@ -105,6 +107,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
                     <button type="button" class="btn btn-primary" (click)="removeGroup(newGroupId)" data-dismiss="modal"> Tak</button>
                 </div>
+
             </div>
         </form>
     </div>
@@ -126,6 +129,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
                     <button type="button" class="btn btn-primary" (click)="removeUser(newGroupId)" data-dismiss="modal"> Tak</button>
                 </div>
+
             </div>
         </form>
     </div>

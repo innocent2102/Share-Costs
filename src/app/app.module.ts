@@ -1,25 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RoutingModule } from './routing.module';
-import { UsersService } from './users/shared/users.service';
 import { HttpModule } from '@angular/http';
-import { GroupsService } from './groups/shared/groups.service';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
-import { ExpensesService } from './services/expenses.service';
-import { OwesService } from './services/owes.service';
-
+import { AppRoutingModule } from './app-routing.module';
+import { ExpensesService } from './expenses/shared/expenses.service';
+import { OwesService } from './owes/owes.service';
+import { UsersService } from './users/shared/users.service';
+import { GroupsService } from './groups/groups.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
-    RoutingModule,
+    AppRoutingModule,
     HttpModule,
     FormsModule,
     ReactiveFormsModule,

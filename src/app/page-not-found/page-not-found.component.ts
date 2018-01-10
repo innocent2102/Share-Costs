@@ -6,8 +6,7 @@ import { Component, OnInit } from '@angular/core';
     <p>
       page-not-found works!
     </p>
-  `,
-  styles: []
+  `
 })
 export class PageNotFoundComponent implements OnInit {
 
