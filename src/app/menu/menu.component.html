@@ -17,7 +17,7 @@
             <i class="fa fa-user-plus pull-right" aria-hidden="true" title="Dodaj użytkownika" data-toggle="modal" data-target="#addUserModal"></i>
         </a>
 
-        <a [routerLink]="['/users', user.name, user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
+        <a [routerLink]="['/owes', user.name, user.id]" class="list-group-item list-group-item-action" *ngFor="let user of usersList">
             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.name}}
             <i (click)="redirectGroupId(user.id)" data-toggle="modal" data-target="#removeUserModal" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
         </a>

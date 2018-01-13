@@ -7,9 +7,10 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ExpensesService } from './expenses/shared/expenses.service';
-import { OwesService } from './owes/owes.service';
-import { UsersService } from './users/shared/users.service';
+import { OwesService } from './owes/shared/owes.service';
+import { UsersService } from './users/users.service';
 import { GroupsService } from './groups/groups.service';
+
 
 @NgModule({
   declarations: [

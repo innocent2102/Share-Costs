@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
 
-import { Iuser } from '../users/shared/iuser';
-import { UsersService } from '../users/shared/users.service';
+import { Iuser } from '../users/iuser';
+import { UsersService } from '../users/users.service';
 import { Igroup } from '../groups//igroup';
 import { GroupsService } from '../groups/groups.service';
 

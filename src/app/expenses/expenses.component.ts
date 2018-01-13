@@ -5,11 +5,12 @@ import { map } from 'rxjs/operator/map';
 
 import { ExpensesService } from './shared/expenses.service';
 import { GroupsService } from '../groups/groups.service';
-import { OwesService } from '../owes/owes.service';
-import { UsersService } from '../users/shared/users.service';
-import { Iusergroup } from '../users/shared/iusergroup';
-import { Iuser } from '../users/shared/iuser';
+import { OwesService } from '../owes/shared/owes.service';
+import { UsersService } from '../users/users.service';
+import { Iusergroup } from '../users/iusergroup';
+import { Iuser } from '../users/iuser';
 import { Iexpenses } from './shared/iexpenses';
+import { Iowes } from '../owes/shared/iowes';
 
 @Component({
   selector: 'app-expenses',
@@ -17,10 +18,10 @@ import { Iexpenses } from './shared/iexpenses';
 })
 export class ExpensesComponent implements OnInit {
 
-    expensesList;
-    owesList;
-    usersList: Iuser;
-    usersGroupsList;
+    expensesList: Iexpenses[];
+    owesList: Iowes[];
+    usersList: Iuser[];
+    usersGroupsList: Iusergroup[];
     newUserGroupForm: FormGroup;
     groupName: string;
     groupId: number;
@@ -132,20 +133,35 @@ export class ExpensesComponent implements OnInit {
             this.expensesService.insertExpensesList(newBill)
                 .subscribe(response => {
                     for (let i = 0; i < this.usersGroupsList.length; i++) {
+                        console.log(this.usersGroupsList);
                         if (this.usersGroupsList[i].groupId === this.groupId ) {
                             if (this.usersGroupsList[i].balans < 0) {
                                 for (let j = 0; j < this.usersGroupsList.length; j++) {
                                     if (this.usersGroupsList[j].balans > 0) {
-                                        const newOwe = {userId: this.usersGroupsList[j].userId, debtorId: this.usersGroupsList[i].userId,
-                                        amount: (this.usersGroupsList[i].balans * -1), expenseId: expenseId};
-                                        if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1) {
+                                        if (this.usersGroupsList[j].balans >=  this.usersGroupsList[i].balans * -1 &&
+                                            this.usersGroupsList[i].balans < 0) {
+                                            const newOwe = {userId: this.usersGroupsList[j].userId,
+                                                debtorId: this.usersGroupsList[i].userId,
+                                                amount: (this.usersGroupsList[i].balans * -1), expenseId: expenseId};
+                                                console.log(this.usersGroupsList[i].userName + ' oddaje ' +
+                                                (this.usersGroupsList[i].balans * -1) + this.usersGroupsList[j].userName);
+
                                             this.addNewOwe(newOwe);
                                             this.usersGroupsList[j].balans -= this.usersGroupsList[i].balans * -1;
                                             this.usersGroupsList[i].balans = 0;
-                                        }else {
+                                            console.log(`Balans ${this.usersGroupsList[j].userName} wynosi ${this.usersGroupsList[j].balans}, a balans ${this.usersGroupsList[i].userName} wynosi ${this.usersGroupsList[i].balans}`);
+                                        }else if (this.usersGroupsList[j].balans < this.usersGroupsList[i].balans * -1 &&
+                                            this.usersGroupsList[i].balans < 0) {
+                                            const newOwe = {userId: this.usersGroupsList[j].userId,
+                                                debtorId: this.usersGroupsList[i].userId,
+                                                amount: (this.usersGroupsList[j].balans), expenseId: expenseId};
+                                                console.log(this.usersGroupsList[i].userName + ' oddaje ' +
+                                                (this.usersGroupsList[j].balans * -1) + this.usersGroupsList[j].userName);
+
                                             this.addNewOwe(newOwe);
                                             this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
                                             this.usersGroupsList[j].balans = 0;
+                                            console.log(`Balans ${this.usersGroupsList[i].userName} wynosi ${this.usersGroupsList[i].balans}, a balans ${this.usersGroupsList[j].userName} wynosi ${this.usersGroupsList[j].balans}`);
                                         }
                                     }
                                 }

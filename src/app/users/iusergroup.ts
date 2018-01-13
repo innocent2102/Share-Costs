@@ -5,4 +5,5 @@ export interface Iusergroup {
   paid: number;
   userName: string;
   groupName: string;
+  balans: number;
 }

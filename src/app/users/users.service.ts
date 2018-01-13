@@ -4,7 +4,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { Iuser } from '../shared/iuser';
+import { Iuser } from './iuser';
 
 @Injectable()
 export class UsersService {

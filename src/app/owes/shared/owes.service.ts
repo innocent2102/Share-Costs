@@ -28,11 +28,13 @@ export class OwesService {
 
   }
 
-  getOwesGroupByAmountList(): Observable<any> {
+  getOwesGroupBy(): Observable<Iowes> {
       return this._http
         .get('http://gorlewskim.pl/share-costs-api/owes/readgroupbyamount.php')
-        .map(res => res.json());
+        .map(res => res.json() as Iowes);
   }
+
+
 
   deleteOweByUserId(userId, debtorId): Observable<any> {
     return this._http.post('http://gorlewskim.pl/share-costs-api/expenses/delete.php',

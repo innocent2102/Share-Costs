@@ -2,16 +2,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { GroupsService } from '../groups/groups.service';
-import { UsersService } from './shared/users.service';
-import { Iowes} from '../owes/iowes';
-import { OwesService } from '../owes/owes.service';
-import { Iuser } from './shared/iuser';
+import { UsersService } from '../users/users.service';
+import { Iowes} from './shared/iowes';
+import { OwesService } from './shared/owes.service';
+import { Iuser } from '../users/iuser';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
+  templateUrl: './owes.component.html',
 })
-export class UsersComponent implements OnInit {
+export class OwesComponent implements OnInit {
   usersGroupsList: any;
   usersList: Iuser;
   userId: number;
@@ -29,13 +29,13 @@ export class UsersComponent implements OnInit {
     this.refreshUsersGroupsList();
     this.refreshUsersList();
     this.refreshOwesList();
-    this.refreshOwesGrouByAmountList();
+    this.refreshOwesGroupBy();
     this.activatedRoute.params.subscribe(g => this.userId = g['userId']);
     this.activatedRoute.params.subscribe(g => this.userName = g['userName']);
   }
 
-  refreshOwesGrouByAmountList() {
-    this.owesListService.getOwesGroupByAmountList()
+  refreshOwesGroupBy() {
+    this.owesListService.getOwesGroupBy()
       .subscribe(data => this.owesGroupByList = data['records']);
   }
 

@@ -4,7 +4,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { Igroup } from './igroup';
-import { Iusergroup } from '../users/shared/iusergroup';
+import { Iusergroup } from '../users/iusergroup';
 
 @Injectable()
 export class GroupsService {
