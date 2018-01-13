@@ -63,6 +63,19 @@ export class OwesComponent implements OnInit {
       error => console.log(error));
   }
 
+  countDebtsAndOwes(debtorId, owesAmount): number {
+      for (let i = 0; i < this.owesGroupByList.length; i++) {
+          if (this.owesGroupByList[i].userId === debtorId) {
+              for (let j = 0; j < this.owesGroupByList.length; j++) {
+                  if (this.owesGroupByList[j].debtorId === debtorId) {
+                      return this.owesGroupByList[j].owesAmount - this.owesGroupByList[i].owesAmount;
+                  }
+              }
+          }
+      }
+      return owesAmount;
+  }
+
 
 
 }

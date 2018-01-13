@@ -34,8 +34,6 @@ export class OwesService {
         .map(res => res.json() as Iowes);
   }
 
-
-
   deleteOweByUserId(userId, debtorId): Observable<any> {
     return this._http.post('http://gorlewskim.pl/share-costs-api/expenses/delete.php',
     { userId: userId, debtorId: debtorId },

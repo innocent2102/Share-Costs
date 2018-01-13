@@ -15,11 +15,18 @@ export class OwesDetailsComponent implements OnInit {
     userId: number;
     owesList: Iowes[];
 
-    constructor(private activatedRoute: ActivatedRoute) { }
+    constructor(private activatedRoute: ActivatedRoute,
+                private owesListService: OwesService) { }
 
     ngOnInit() {
         this.activatedRoute.params.subscribe(g => this.userId = g['userId']);
         this.activatedRoute.params.subscribe(g => this.debtorId = g['debtorId']);
+        this.refreshOwesList();
     }
+
+    refreshOwesList() {
+        this.owesListService.getOwesList()
+          .subscribe(data => this.owesList = data['records']);
+      }
 
 }
