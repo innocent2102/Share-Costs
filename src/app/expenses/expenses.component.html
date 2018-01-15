@@ -1,14 +1,11 @@
-<p>
-    expenses works!
-</p>
 <div class="container">
     <div class="row">
 
         <!--Content-->
-        <div class="col-md-8 table-bordered">
-            <button type="button" class="btn btn-primary" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
-            <div class="container-fluid clear-padding" *ngFor="let expense of expensesList">
-                <div class="list-inline bill-style" *ngIf="expense.groupId == groupId">
+        <div class="col-md-8">
+            <button type="button" class="btn btn-info container-fluid font-weight-bold" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
+            <div class="container-fluid margin-top clear-padding" *ngFor="let expense of expensesList">
+                <div class="list-inline bill-style" *ngIf="expense.groupId === groupId" [routerLink]="['/expenses-details', expense.id, expense.name, expense.amount]">
                     <div class="bill-border"></div>
                     <div class="pull-left container-fluid bill-style-left">
                         <span class="center-block text-center bill-style-day">{{expense.date | date:'dd'}}</span>
@@ -24,7 +21,7 @@
         </div>
 
         <!--Prawa kolumna-->
-        <div class="col-md-4 table-bordered">
+        <div class="col-md-4">
             <div class="list-group side-bar">
 
                 <!--Lista użytkownikow dla danej grupy-->

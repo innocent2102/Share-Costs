@@ -3,13 +3,13 @@
 
         <!--Content długi-->
         <div class="col-md-8">
-            <h2>{{userName}} - Bilans</h2>
+            <h3 class="header-balance">{{userName}} - bilans długów</h3>
 
             <!--Do oddania-->
             <div class="col-md-12">
-                <table class="table table-hover">
+                <table class="table table-hover margin-top">
 
-                    <thead>
+                    <thead class="btn-info">
                         <tr>
                             <th>Dług</th>
                             <th>Kwota</th>
@@ -19,10 +19,10 @@
 
                     <tbody *ngFor="let owe of owesGroupByList">
 
-                        <tr *ngIf="userId === owe.userId" [routerLink]="['/owes-details', owe.debtorId, owe.userId]">
+                        <tr *ngIf="userId === owe.userId" [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">
                             <td>{{ owe.debtorName }}</td>
                             <td>{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}}</td>
-                            <td>x</td>
+                            <td><span (click)="removeExpense(expense.id)" class="fa fa-times"></span></td>
                         </tr>
 
                     </tbody>
@@ -32,7 +32,7 @@
         </div>
 
         <!--Prawa kolumna-->
-        <div class="col-md-4 table-bordered">
+        <div class="col-md-4">
             <div class="list-group side-bar">
 
                 <!--Grupy-->

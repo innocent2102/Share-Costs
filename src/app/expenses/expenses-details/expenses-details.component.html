@@ -1,0 +1,20 @@
+<h3 class="lead header-balance font-weight-bold">{{expenseName}} - szczegóły</h3>
+<p class="lead font-weight-bold">Kwota wydatku: {{expenseAmount}} zł</p>
+<table class="table table-hover">
+    <thead class="btn-info">
+        <tr>
+            <th>Użytkownik</th>
+            <th>Zapłacił</th>
+            <th>Należność</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let expense of userExpense">
+            <tr *ngIf="expenseId === expense.expenseId">
+                <td scope="row">{{expense.userName}}</td>
+                <td>{{expense.paidShare}}</td>
+                <td>{{expense.owedShare}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

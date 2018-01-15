@@ -81,6 +81,13 @@ export class ExpensesComponent implements OnInit {
         error => console.log(error));
     }
 
+    addNewShare(newShare) {
+        this.expensesService.insertToUsersExpenses(newShare)
+            .subscribe(response => {
+                console.log('dodane NewShare');
+            });
+    }
+
     removeUserGroup(userId) {
         this.groupsService.removeUserGroup(this.groupId, userId)
         .subscribe(response => {
@@ -114,6 +121,12 @@ export class ExpensesComponent implements OnInit {
     addNewBill() {
         let paidSum = 0;
         let debtSum = 0;
+        let expenseId: number;
+        if (this.expensesList) {
+            expenseId = Number(this.expensesList[this.expensesList.length - 1].id) + 1;
+        }else {
+            expenseId = 1;
+        }
         for (let i = 0; i < this.usersGroupsList.length; i++) {
             if (this.usersGroupsList[i].groupId === this.groupId ) {
                 paidSum += Number(this.usersGroupsList[i].paid);
@@ -121,19 +134,17 @@ export class ExpensesComponent implements OnInit {
                 this.usersGroupsList[i].balans = this.usersGroupsList[i].paid - this.usersGroupsList[i].debt;
             }
         }
-        let expenseId: number;
-        if (this.expensesList) {
-            expenseId = Number(this.expensesList[this.expensesList.length - 1].id) + 1;
-        }else {
-            expenseId = 1;
-        }
         const newBill = {id: expenseId, name: this.newBillName, amount: this.newBillAmount, groupId: this.groupId, date: new Date()};
         const bilans = paidSum - debtSum;
         if (this.newBillAmount - paidSum === 0 && bilans === 0 && this.newBillName !== '') {
             this.expensesService.insertExpensesList(newBill)
                 .subscribe(response => {
                     for (let i = 0; i < this.usersGroupsList.length; i++) {
-                        console.log(this.usersGroupsList);
+                        if (this.usersGroupsList[i].balans !== 0 && this.usersGroupsList[i].groupId === this.groupId) {
+                            const newShare = {userId: this.usersGroupsList[i].userId, expenseId: expenseId,
+                            paidShare: this.usersGroupsList[i].paid, owedShare: this.usersGroupsList[i].debt};
+                            this.addNewShare(newShare);
+                        }
                         if (this.usersGroupsList[i].groupId === this.groupId ) {
                             if (this.usersGroupsList[i].balans < 0) {
                                 for (let j = 0; j < this.usersGroupsList.length; j++) {
@@ -173,6 +184,7 @@ export class ExpensesComponent implements OnInit {
                         }
                     }
                     this.refreshExpensesList();
+                    this.expensesService.getUsersExpensesList();
                 },
             error => console.log(error));
         }else {

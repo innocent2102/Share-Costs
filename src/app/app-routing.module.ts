@@ -8,12 +8,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ExpensesComponent } from './expenses/expenses.component';
 import { OwesComponent } from './owes/owes.component';
 import { OwesDetailsComponent } from './owes/owes-details/owes-details.component';
+import { ExpensesDetailsComponent } from './expenses/expenses-details/expenses-details.component';
 
 const appRoutes: Routes = [
     { path: 'app-root', component: AppComponent },
     { path: 'expenses/:groupName/:groupId', component: ExpensesComponent },
+    { path: 'expenses-details/:expenseId/:expenseName/:expenseAmount', component: ExpensesDetailsComponent },
     { path: 'owes/:userName/:userId', component: OwesComponent },
-    { path: 'owes-details/:debtorId/:userId', component: OwesDetailsComponent },
+    { path: 'owes-details/:debtorId/:userId/:userName/:debtorName', component: OwesDetailsComponent },
     { path: '', redirectTo: '/groups/2', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     OwesComponent,
     ExpensesComponent,
-    OwesDetailsComponent
+    OwesDetailsComponent,
+    ExpensesDetailsComponent
 ]
 })
 export class AppRoutingModule { }

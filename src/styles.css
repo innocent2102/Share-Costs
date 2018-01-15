@@ -84,6 +84,8 @@ body {
 .bill-style:hover {
     color: rgb(44, 162, 198);
     opacity: 1;
+    background-color: white;
+    cursor: pointer;
 }
 
 .bill-style:hover .bill-style-left {
@@ -106,4 +108,12 @@ body {
 .owe-amount {
     color: red;
     font-weight: 700;
+}
+
+.header-balance {
+    text-align: center;
+}
+
+.margin-top {
+    margin-top: 20px;
 }

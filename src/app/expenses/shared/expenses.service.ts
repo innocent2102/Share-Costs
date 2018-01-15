@@ -11,25 +11,37 @@ export class ExpensesService {
   headers = new Headers({ 'Content-Type': 'application/json' });
   options = new RequestOptions({ headers: this.headers });
 
-  constructor(private _http: Http) { }
+  constructor(private http: Http) { }
 
   getExpensesList(): Observable<Iexpenses> {
-    return this._http.get('http://gorlewskim.pl/share-costs-api/expenses/read.php')
+    return this.http.get('http://gorlewskim.pl/share-costs-api/expenses/read.php')
       .map(res => res.json() as Iexpenses);
   }
 
   insertExpensesList(newBill): Observable<Iexpenses> {
-    return this._http.post('http://gorlewskim.pl/share-costs-api/expenses/create.php',
+    return this.http.post('http://gorlewskim.pl/share-costs-api/expenses/create.php',
       newBill,
       this.options
     ).map(res => res.json() as Iexpenses);
   }
 
   deleteExpense(id): Observable<Iexpenses> {
-    return this._http.post('http://gorlewskim.pl/share-costs-api/expenses/delete.php',
+    return this.http.post('http://gorlewskim.pl/share-costs-api/expenses/delete.php',
     { id: id },
             this.options
         ).map(res => res.json() as Iexpenses);
+  }
+
+  getUsersExpensesList(): Observable<any> {
+      return this.http.get('http://gorlewskim.pl/share-costs-api/usersexpenses/read.php')
+        .map(res => res.json());
+  }
+
+  insertToUsersExpenses(newUserExpense) {
+      return this.http.post('http://gorlewskim.pl/share-costs-api/usersexpenses/create.php',
+      newUserExpense,
+      this.options
+    ).map(res => res.json());
   }
 
 }
