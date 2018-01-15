@@ -37,10 +37,17 @@ export class ExpensesService {
         .map(res => res.json());
   }
 
-  insertToUsersExpenses(newUserExpense) {
+  insertToUsersExpenses(newUserExpense): Observable<any> {
       return this.http.post('http://gorlewskim.pl/share-costs-api/usersexpenses/create.php',
       newUserExpense,
       this.options
+    ).map(res => res.json());
+  }
+
+  deleteUserExpense(expenseId): Observable<any> {
+      return this.http.post('http://gorlewskim.pl/share-costs-api/usersexpenses/delete.php',
+        { expenseId: expenseId},
+        this.options,
     ).map(res => res.json());
   }
 

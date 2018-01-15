@@ -106,16 +106,18 @@ export class ExpensesComponent implements OnInit {
     }
 
     removeExpense(expenseId) {
-        this.oweService.deleteOweByExpenseId(expenseId)
-        .subscribe(response => {
-            this.refreshOwesList();
-            this.expensesService.deleteExpense(expenseId)
-            .subscribe(callback => {
-                this.refreshExpensesList();
-            },
-            error => console.log(error));
-        },
-        error => console.log(error));
+        this.expensesService.deleteUserExpense(expenseId)
+        .subscribe( data => {
+            this.oweService.deleteOweByExpenseId(expenseId)
+            .subscribe(response => {
+                this.refreshOwesList();
+                this.expensesService.deleteExpense(expenseId)
+                .subscribe(callback => {
+                    this.refreshExpensesList();
+                    this.expensesService.getUsersExpensesList();
+                });
+             });
+        });
     }
 
     addNewBill() {
