@@ -17,21 +17,21 @@ export class ExpensesDetailsComponent implements OnInit {
     expenseName: string;
     expenseAmount: number;
 
-  constructor(private expensesService: ExpensesService,
-            private activatedRoute: ActivatedRoute) { }
+    constructor(private expensesService: ExpensesService,
+                private activatedRoute: ActivatedRoute) { }
 
-  ngOnInit() {
-      this.getUsersExpensesList();
-      this.activatedRoute.params.subscribe(e => this.expenseId = e['expenseId']);
-      this.activatedRoute.params.subscribe(e => this.expenseName = e['expenseName']);
-      this.activatedRoute.params.subscribe(e => this.expenseAmount = e['expenseAmount']);
-  }
+    ngOnInit() {
+        this.getUsersExpensesList();
+        this.activatedRoute.params.subscribe(e => this.expenseId = e['expenseId']);
+        this.activatedRoute.params.subscribe(e => this.expenseName = e['expenseName']);
+        this.activatedRoute.params.subscribe(e => this.expenseAmount = e['expenseAmount']);
+    }
 
-  getUsersExpensesList() {
-      this.expensesService.getUsersExpensesList()
+    getUsersExpensesList() {
+        this.expensesService.getUsersExpensesList()
         .subscribe( response => {
             this.userExpense = response['records'];
         });
-  }
+    }
 
 }

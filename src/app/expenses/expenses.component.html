@@ -5,14 +5,14 @@
         <div class="col-md-8">
             <button type="button" class="btn btn-info container-fluid font-weight-bold" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
             <div class="container-fluid margin-top clear-padding" *ngFor="let expense of expensesList">
-                <div class="list-inline bill-style" *ngIf="expense.groupId === groupId" [routerLink]="['/expenses-details', expense.id, expense.name, expense.amount]">
+                <div class="list-inline bill-style" *ngIf="expense.groupId === groupId">
                     <div class="bill-border"></div>
                     <div class="pull-left container-fluid bill-style-left">
                         <span class="center-block text-center bill-style-day">{{expense.date | date:'dd'}}</span>
                         <span class="center-block bill-style-month">{{expense.date | date:'MMM'}}</span>
                     </div>
                     <div class="container-fluid">
-                        <span class="bill-style-right">{{expense.name}}</span>
+                        <span class="bill-style-right" [routerLink]="['/expenses-details', expense.id, expense.name, expense.amount]">{{expense.name}}</span>
                         <span (click)="removeExpense(expense.id)" class="bill-delete fa fa-times pull-right"></span>
                     </div>
                     <div class="bill-border"></div>

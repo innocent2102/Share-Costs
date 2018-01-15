@@ -1,37 +1,46 @@
-<h4 class="header-balance">{{userName}} - {{debtorName}}</h4>
+<h3 class="header-balance ">{{userName}} - {{debtorName}}</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
 
-<p class="lead font-weight-bold">{{debtorName}} winny:</p>
-<table class="table table-hover">
-    <thead class="btn-info">
-        <tr>
-            <th>Kwota</th>
-            <th>Za</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let owe of owesList">
+            <p class="lead font-weight-bold">{{debtorName}} winny:</p>
+            <table class="table table-hover">
+                <thead class="btn-info">
+                    <tr>
+                        <th>Za</th>
+                        <th>Kwota</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let owe of owesList">
 
-        <tr *ngIf="userId === owe.userId && owe.debtorId === debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]">
-            <td>{{ owe.owesAmount}} zł</td>
-            <td>{{ owe.expenseName}}</td>
-        </tr>
+                    <tr *ngIf="userId === owe.userId && owe.debtorId === debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]">
+                        <td class="font-weight-bold">{{ owe.expenseName}}</td>
+                        <td [style.color]="owe.owesAmount > 0 ? 'green' : 'red'">{{ owe.owesAmount}} zł</td>
+                    </tr>
 
-    </tbody>
-</table>
-<p class="lead font-weight-bold">{{userName}} winny:</p>
-<table class="table table-hover">
-    <thead class="btn-info">
-        <tr>
-            <th>Kwota</th>
-            <th>Za</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let owe of owesList">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <p class="lead font-weight-bold">{{userName}} winny:</p>
+            <table class="table table-hover">
+                <thead class="btn-info">
+                    <tr>
+                        <th>Za</th>
+                        <th>Kwota</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let owe of owesList">
 
-        <tr *ngIf="userId === owe.debtorId" [routerLink]="['/owes-details', owe.debtorId, owe.userId]">
-            <td>{{ owe.owesAmount}} zł</td>
-            <td>{{ owe.expenseName}}</td>
-        </tr>
+                    <tr *ngIf="userId === owe.debtorId" [routerLink]="['/owes-details', owe.debtorId, owe.userId]">
+                        <td>{{ owe.expenseName}}</td>
+                        <td class="font-weight-bold" [style.color]="owe.owesAmount > 0 ? 'green' : 'red'">{{ owe.owesAmount}} zł</td>
+                    </tr>
 
-    </tbody>
+                </tbody>
 
-</table>
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -31,6 +31,17 @@ export class OwesDetailsComponent implements OnInit {
     refreshOwesList() {
         this.owesListService.getOwesList()
           .subscribe(data => this.owesList = data['records']);
-      }
+    }
+
+    setColor(value) {
+        if (value > 0) {
+            const styles = {'color' : 'green'};
+            return styles;
+        }else {
+            const styles = {'color' : 'red'};
+            return styles;
+        }
+
+    }
 
 }

@@ -3,7 +3,7 @@
 
         <!--Content długi-->
         <div class="col-md-8">
-            <h3 class="header-balance">{{userName}} - bilans długów</h3>
+            <h4 class="header-balance">{{userName}} - bilans długów</h4>
 
             <!--Do oddania-->
             <div class="col-md-12">
@@ -21,8 +21,8 @@
 
                         <tr *ngIf="userId === owe.userId" [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">
                             <td>{{ owe.debtorName }}</td>
-                            <td>{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}}</td>
-                            <td><span (click)="removeExpense(expense.id)" class="fa fa-times"></span></td>
+                            <td class="font-weight-bold" [style.color]="(countDebtsAndOwes(owe.debtorId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}} zł</td>
+                            <td><span (click)="removeExpense(expense.id)" class="fa fa-times delete-owe-icon"></span></td>
                         </tr>
 
                     </tbody>

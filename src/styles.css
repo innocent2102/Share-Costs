@@ -117,3 +117,8 @@ body {
 .margin-top {
     margin-top: 20px;
 }
+
+.delete-owe-icon {
+    color: red;
+    margin-left: 10px;
+}
