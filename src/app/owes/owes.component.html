@@ -17,13 +17,30 @@
                         </tr>
                     </thead>
 
-                    <tbody *ngFor="let owe of owesGroupByList">
-
-                        <tr *ngIf="userId === owe.userId" [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">
-                            <td>{{ owe.debtorName }}</td>
-                            <td class="font-weight-bold" [style.color]="(countDebtsAndOwes(owe.debtorId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}} zł</td>
-                            <td><span (click)="removeExpense(expense.id)" class="fa fa-times delete-owe-icon"></span></td>
+                    <tbody>
+                        <tr class="font-weight-bold">
+                            <td>Należność</td>
                         </tr>
+                        <ng-container *ngFor="let owe of owesGroupByList">
+                            <tr *ngIf="userId === owe.userId">
+                                <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">{{ owe.debtorName }}</td>
+                                <td class="font-weight-bold" [style.color]="(countDebtsAndOwes(owe.debtorId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}} zł</td>
+                                <td><span class="fa fa-times delete-owe-icon" (click)="removeOwe(userId, owe.debtorId)"></span></td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor="let owe of owesGroupByList">
+                            <ng-container *ngIf="userId === owe.debtorId">
+                                <tr *ngIf="showDebts(owe.debtorId, owe.userId,owe.owesAmount) < 0">
+                                    <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">{{ owe.userName }}</td>
+                                    <td class="font-weight-bold" [style.color]="(showDebts(owe.debtorId, owe.userId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ showDebts(owe.debtorId, owe.userId, owe.owesAmount)}} zł</td>
+                                    <td><span class="fa fa-times delete-owe-icon" (click)="removeOwe(userId, owe.debtorId)"></span></td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                    <br>
+                    <tbody>
+
 
                     </tbody>
 

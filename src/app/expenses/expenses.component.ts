@@ -84,7 +84,7 @@ export class ExpensesComponent implements OnInit {
     addNewShare(newShare) {
         this.expensesService.insertToUsersExpenses(newShare)
             .subscribe(response => {
-                console.log('dodane NewShare');
+                console.log(response);
             });
     }
 

@@ -11,8 +11,11 @@
                         <span class="center-block text-center bill-style-day">{{expense.date | date:'dd'}}</span>
                         <span class="center-block bill-style-month">{{expense.date | date:'MMM'}}</span>
                     </div>
-                    <div class="container-fluid">
-                        <span class="bill-style-right" [routerLink]="['/expenses-details', expense.id, expense.name, expense.amount]">{{expense.name}}</span>
+                    <div style="position: relative" class="container-fluid">
+                        <div [routerLink]="['/expenses-details', expense.id, expense.name, expense.amount]">
+                            <span class="bill-style-right">{{expense.name}}</span>
+                            <span class="bill-amount">{{expense.amount}} zł</span>
+                        </div>
                         <span (click)="removeExpense(expense.id)" class="bill-delete fa fa-times pull-right"></span>
                     </div>
                     <div class="bill-border"></div>

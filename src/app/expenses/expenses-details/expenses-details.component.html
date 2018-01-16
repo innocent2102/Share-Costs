@@ -1,5 +1,5 @@
 <h3 class="lead header-balance font-weight-bold">{{expenseName}} - szczegóły</h3>
-<p class="lead font-weight-bold">Kwota wydatku: {{expenseAmount}} zł</p>
+<p class="lead font-weight-bold">Koszt: {{expenseAmount}} zł</p>
 <table class="table table-hover">
     <thead class="btn-info">
         <tr>
@@ -11,9 +11,9 @@
     <tbody>
         <ng-container *ngFor="let expense of userExpense">
             <tr *ngIf="expenseId === expense.expenseId">
-                <td scope="row">{{expense.userName}}</td>
-                <td>{{expense.paidShare}}</td>
-                <td>{{expense.owedShare}}</td>
+                <td scope="row" [routerLink]="['/owes', expense.userName, expense.userId]">{{expense.userName}}</td>
+                <td class="font-weight-bold" [style.color]="expense.paidShare < expense.owedShare ? 'red' : 'green'">{{expense.paidShare}} zł</td>
+                <td class="font-weight-bold" [style.color]="expense.paidShare < expense.owedShare ? 'red' : 'green'">{{expense.owedShare}} zł</td>
             </tr>
         </ng-container>
     </tbody>

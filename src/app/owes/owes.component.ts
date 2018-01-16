@@ -12,70 +12,87 @@ import { Iuser } from '../users/iuser';
   templateUrl: './owes.component.html',
 })
 export class OwesComponent implements OnInit {
-  usersGroupsList: any;
-  usersList: Iuser;
-  userId: number;
-  owesList: Iowes;
-  owesGroupByList;
-  userName: string;
+    usersGroupsList: any;
+    usersList: Iuser;
+    userId: number;
+    owesList: Iowes;
+    owesGroupByList;
+    userName: string;
 
-  constructor(private activatedRoute: ActivatedRoute,
-    private groupsService: GroupsService,
-    private usersService: UsersService,
-    private owesListService: OwesService,
-    private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute,
+        private groupsService: GroupsService,
+        private usersService: UsersService,
+        private owesListService: OwesService,
+        private router: Router) { }
 
-  ngOnInit() {
-    this.refreshUsersGroupsList();
-    this.refreshUsersList();
-    this.refreshOwesList();
-    this.refreshOwesGroupBy();
-    this.activatedRoute.params.subscribe(g => this.userId = g['userId']);
-    this.activatedRoute.params.subscribe(g => this.userName = g['userName']);
-  }
-
-  refreshOwesGroupBy() {
-    this.owesListService.getOwesGroupBy()
-      .subscribe(data => this.owesGroupByList = data['records']);
-  }
-
-  refreshUsersGroupsList() {
-    this.groupsService.getUsersGroupsList()
-      .subscribe(data => this.usersGroupsList = data['records']);
-  }
-
-  refreshUsersList() {
-    this.usersService.getUsersList()
-      .subscribe(data => this.usersList = data['records']);
-  }
-
-  refreshOwesList() {
-    this.owesListService.getOwesList()
-      .subscribe(data => this.owesList = data['records']);
-  }
-
-  removeUserGroup(groupId) {
-    this.groupsService.removeUserGroup(groupId, this.userId)
-      .subscribe(response => {
-        console.log(response);
+    ngOnInit() {
         this.refreshUsersGroupsList();
-       },
-      error => console.log(error));
-  }
+        this.refreshUsersList();
+        this.refreshOwesList();
+        this.refreshOwesGroupBy();
+        this.activatedRoute.params.subscribe(g => this.userId = g['userId']);
+        this.activatedRoute.params.subscribe(g => this.userName = g['userName']);
+    }
 
-  countDebtsAndOwes(debtorId, owesAmount): number {
-      for (let i = 0; i < this.owesGroupByList.length; i++) {
-          if (this.owesGroupByList[i].userId === debtorId) {
-              for (let j = 0; j < this.owesGroupByList.length; j++) {
-                  if (this.owesGroupByList[j].debtorId === debtorId) {
-                      return this.owesGroupByList[j].owesAmount - this.owesGroupByList[i].owesAmount;
-                  }
-              }
-          }
-      }
-      return owesAmount;
-  }
+    refreshOwesGroupBy() {
+        this.owesListService.getOwesGroupBy()
+        .subscribe(data => this.owesGroupByList = data['records']);
+    }
 
+    refreshUsersGroupsList() {
+        this.groupsService.getUsersGroupsList()
+        .subscribe(data => this.usersGroupsList = data['records']);
+    }
 
+    refreshUsersList() {
+        this.usersService.getUsersList()
+        .subscribe(data => this.usersList = data['records']);
+    }
+
+    refreshOwesList() {
+        this.owesListService.getOwesList()
+        .subscribe(data => this.owesList = data['records']);
+    }
+
+    removeUserGroup(groupId) {
+        this.groupsService.removeUserGroup(groupId, this.userId)
+        .subscribe(response => {
+            console.log(response);
+            this.refreshUsersGroupsList();
+        },
+        error => console.log(error));
+    }
+
+    removeOwe(userId, debtorId) {
+        this.owesListService.deleteOweByUserAndDebtorId(userId, debtorId)
+            .subscribe(response => {
+                console.log(response);
+                this.refreshOwesGroupBy();
+            },
+            error => console.log(error));
+    }
+
+    countDebtsAndOwes(debtorId, owesAmount): number {
+        for (let i = 0; i < this.owesGroupByList.length; i++) {
+            if (this.owesGroupByList[i].userId === debtorId && this.owesGroupByList[i].debtorId === this.userId) {
+                return owesAmount - this.owesGroupByList[i].owesAmount;
+            }
+        }
+        return owesAmount;
+    }
+
+    showDebts(debtorId, userId, owesAmount): number {
+        let founded = false;
+        for (let i = 0; i < this.owesGroupByList.length; i++) {
+            if (this.owesGroupByList[i].debtorId === userId &&
+                this.owesGroupByList[i].userId === debtorId) {
+                founded = true;
+                return 0;
+            }
+        }
+        if (founded === false) {
+            return owesAmount * -1;
+        }
+    }
 
 }

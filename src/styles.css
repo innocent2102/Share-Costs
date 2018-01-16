@@ -96,17 +96,17 @@ body {
 
 .bill-delete {
     color: palevioletred;
-    line-height: 3;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
     font-size: 18px;
 }
 
-.debt-amount {
-    color: green;
-    font-weight: 700;
-}
-
-.owe-amount {
-    color: red;
+.bill-amount {
+    top: 15px;
+    position: absolute;
+    display: inline-block;
+    right: 50px;
     font-weight: 700;
 }
 
