@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <h4 class="header-balance">{{userName}} - bilans długów</h4>
 
-            <!--Do oddania-->
+            <!--Dług-->
             <div class="col-md-12">
                 <table class="table table-hover margin-top">
 
@@ -18,9 +18,6 @@
                     </thead>
 
                     <tbody>
-                        <tr class="font-weight-bold">
-                            <td>Należność</td>
-                        </tr>
                         <ng-container *ngFor="let owe of owesGroupByList">
                             <tr *ngIf="userId === owe.userId">
                                 <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">{{ owe.debtorName }}</td>

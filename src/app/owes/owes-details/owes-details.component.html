@@ -32,7 +32,7 @@
                 </thead>
                 <tbody *ngFor="let owe of owesList">
 
-                    <tr *ngIf="userId === owe.debtorId" [routerLink]="['/owes-details', owe.debtorId, owe.userId]">
+                    <tr *ngIf="userId === owe.debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]">
                         <td>{{ owe.expenseName}}</td>
                         <td class="font-weight-bold" [style.color]="owe.owesAmount > 0 ? 'green' : 'red'">{{ owe.owesAmount}} zł</td>
                     </tr>

@@ -59,11 +59,8 @@ export class MenuComponent implements OnInit {
         .subscribe(
             response => {
                 alert('Grupa dodana!');
-                console.log(response);
                 this.refreshGroupsList();
-                },
-            error => console.log(error)
-            );
+                });
     }
 
     addNewUser() {
@@ -71,33 +68,24 @@ export class MenuComponent implements OnInit {
         .subscribe(
             response => {
                 alert('Użytkownik dodany!');
-                console.log(this.newUserForm);
                 this.refreshUsersList();
-            },
-            error => console.log(error)
-        );
+            });
     }
 
     removeGroup(groupId) {
         this.groupsService.removeGroup(groupId)
         .subscribe(
             response => {
-                console.log(response);
                 this.refreshGroupsList();
-            },
-            error => console.log(error)
-        );
+            });
     }
 
     removeUser(userId) {
         this.usersService.removeUser(userId)
         .subscribe(
             response => {
-                console.log(response);
                 this.refreshUsersList();
-            },
-            error => console.log(error)
-        );
+            });
     }
 
     redirectGroupId(id: number) {

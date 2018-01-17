@@ -57,19 +57,16 @@ export class OwesComponent implements OnInit {
     removeUserGroup(groupId) {
         this.groupsService.removeUserGroup(groupId, this.userId)
         .subscribe(response => {
-            console.log(response);
             this.refreshUsersGroupsList();
-        },
-        error => console.log(error));
+        });
     }
 
     removeOwe(userId, debtorId) {
         this.owesListService.deleteOweByUserAndDebtorId(userId, debtorId)
             .subscribe(response => {
-                console.log(response);
                 this.refreshOwesGroupBy();
-            },
-            error => console.log(error));
+                alert('Dług spłacony!');
+            });
     }
 
     countDebtsAndOwes(debtorId, owesAmount): number {

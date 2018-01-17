@@ -25,12 +25,6 @@ export class GroupsService {
         .map(res => res.json());
     }
 
-    private handleError(error: Response) {
-        console.error(error);
-        const message = 'Error status code ${error.status} at ${error.url}';
-        return Observable.throw(message);
-    }
-
     insertToGroupList(newGroup: Igroup): Observable<Igroup> {
         return this._http.post('http://gorlewskim.pl/share-costs-api/groups/create.php',
         newGroup,

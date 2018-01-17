@@ -19,7 +19,6 @@ import { Iowes } from '../owes/shared/iowes';
 export class ExpensesComponent implements OnInit {
 
     expensesList: Iexpenses[];
-    owesList: Iowes[];
     usersList: Iuser[];
     usersGroupsList: Iusergroup[];
     newUserGroupForm: FormGroup;
@@ -27,6 +26,7 @@ export class ExpensesComponent implements OnInit {
     groupId: number;
     newBillName: string;
     newBillAmount: number;
+    newUserId: number;
 
     constructor(private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
@@ -39,10 +39,10 @@ export class ExpensesComponent implements OnInit {
     ngOnInit() {
         this.refreshExpensesList();
         this.refreshUsersGroupsList();
-        this.refreshUsersList();
-        this.refreshOwesList();
         this.activatedRoute.params.subscribe(g => this.groupId = g['groupId']);
         this.activatedRoute.params.subscribe(g => this.groupName = g['groupName']);
+        this.usersService.getUsersList()
+        .subscribe(data => this.usersList = data['records']);
     }
 
     refreshExpensesList() {
@@ -50,10 +50,6 @@ export class ExpensesComponent implements OnInit {
         .subscribe(data => this.expensesList = data['records']);
     }
 
-    refreshOwesList() {
-        this.oweService.getOwesList()
-        .subscribe(data => this.owesList = data['records']);
-    }
 
     refreshUsersGroupsList() {
         this.groupsService.getUsersGroupsList()
@@ -64,45 +60,44 @@ export class ExpensesComponent implements OnInit {
         });
     }
 
-    refreshUsersList() {
-        this.usersService.getUsersList()
-        .subscribe(data => this.usersList = data['records']);
-    }
-
     addNewUserGroup() {
+        let userExistInCurrentGroup = false;
         this.newUserGroupForm.value.groupId = this.groupId;
-        this.groupsService.insertToUsersGroupsList(this.newUserGroupForm.value)
-        .subscribe(
-        response => {
-            console.log(this.newUserGroupForm.value);
-                console.log(response);
-                this.refreshUsersGroupsList();
-            },
-        error => console.log(error));
+        for (let i = 0; i < this.usersGroupsList.length; i++) {
+            if (this.newUserGroupForm.value.userId === this.usersGroupsList[i].userId && this.usersGroupsList[i].groupId === this.groupId) {
+                userExistInCurrentGroup = true;
+            }
+        }
+        if (userExistInCurrentGroup === false) {
+            this.groupsService.insertToUsersGroupsList(this.newUserGroupForm.value)
+            .subscribe(
+            response => {
+                    this.refreshUsersGroupsList();
+                    alert('Użytkownik usunięty z grupy');
+                });
+        }else {
+            alert('Ten użytkownik należy już do grupy. Wybierz inną osobę, która nie należy do tej grupy');
+        }
     }
 
     addNewShare(newShare) {
         this.expensesService.insertToUsersExpenses(newShare)
             .subscribe(response => {
-                console.log(response);
             });
     }
 
     removeUserGroup(userId) {
         this.groupsService.removeUserGroup(this.groupId, userId)
         .subscribe(response => {
-            console.log(response);
             this.refreshUsersGroupsList();
-        },
-        error => console.log(error));
+        });
     }
 
     addNewOwe(newOwe) {
         this.oweService.insertOweToList(newOwe)
         .subscribe(response => {
-            this.refreshOwesList();
-        },
-        error => console.log(error));
+            this.oweService.getOwesList();
+        });
     }
 
     removeExpense(expenseId) {
@@ -110,11 +105,12 @@ export class ExpensesComponent implements OnInit {
         .subscribe( data => {
             this.oweService.deleteOweByExpenseId(expenseId)
             .subscribe(response => {
-                this.refreshOwesList();
+                this.oweService.getOwesList();
                 this.expensesService.deleteExpense(expenseId)
                 .subscribe(callback => {
                     this.refreshExpensesList();
                     this.expensesService.getUsersExpensesList();
+                    alert('Wydatek usunięty');
                 });
              });
         });
@@ -142,11 +138,11 @@ export class ExpensesComponent implements OnInit {
             this.expensesService.insertExpensesList(newBill)
                 .subscribe(response => {
                     for (let i = 0; i < this.usersGroupsList.length; i++) {
-                        if (this.usersGroupsList[i].balans !== 0 && this.usersGroupsList[i].groupId === this.groupId) {
+                        if ((this.usersGroupsList[i].paid != 0 || this.usersGroupsList[i].debt) != 0 &&
+                        this.usersGroupsList[i].groupId === this.groupId) {
                             const newShare = {userId: this.usersGroupsList[i].userId, expenseId: expenseId,
                             paidShare: this.usersGroupsList[i].paid, owedShare: this.usersGroupsList[i].debt};
-                            this.addNewShare(newShare);
-                        }
+                            this.addNewShare(newShare);                        }
                         if (this.usersGroupsList[i].groupId === this.groupId ) {
                             if (this.usersGroupsList[i].balans < 0) {
                                 for (let j = 0; j < this.usersGroupsList.length; j++) {
@@ -156,29 +152,17 @@ export class ExpensesComponent implements OnInit {
                                             const newOwe = {userId: this.usersGroupsList[j].userId,
                                                 debtorId: this.usersGroupsList[i].userId,
                                                 amount: (this.usersGroupsList[i].balans * -1), expenseId: expenseId};
-                                                console.log(this.usersGroupsList[i].userName + ' oddaje ' +
-                                                (this.usersGroupsList[i].balans * -1) + this.usersGroupsList[j].userName);
-
                                             this.addNewOwe(newOwe);
                                             this.usersGroupsList[j].balans -= this.usersGroupsList[i].balans * -1;
                                             this.usersGroupsList[i].balans = 0;
-                                            console.log(`Balans ${this.usersGroupsList[j].userName} wynosi
-                                            ${this.usersGroupsList[j].balans}, a balans ${this.usersGroupsList[i].userName}
-                                            wynosi ${this.usersGroupsList[i].balans}`);
                                         }else if (this.usersGroupsList[j].balans < this.usersGroupsList[i].balans * -1 &&
                                             this.usersGroupsList[i].balans < 0) {
                                             const newOwe = {userId: this.usersGroupsList[j].userId,
                                                 debtorId: this.usersGroupsList[i].userId,
                                                 amount: (this.usersGroupsList[j].balans), expenseId: expenseId};
-                                                console.log(this.usersGroupsList[i].userName + ' oddaje ' +
-                                                (this.usersGroupsList[j].balans * -1) + this.usersGroupsList[j].userName);
-
                                             this.addNewOwe(newOwe);
                                             this.usersGroupsList[i].balans += this.usersGroupsList[j].balans;
                                             this.usersGroupsList[j].balans = 0;
-                                            console.log(`Balans ${this.usersGroupsList[i].userName}
-                                            wynosi ${this.usersGroupsList[i].balans}, a balans ${this.usersGroupsList[j].userName}
-                                            wynosi ${this.usersGroupsList[j].balans}`);
                                         }
                                     }
                                 }
@@ -187,12 +171,10 @@ export class ExpensesComponent implements OnInit {
                     }
                     this.refreshExpensesList();
                     this.expensesService.getUsersExpensesList();
-                },
-            error => console.log(error));
+                });
         }else {
             alert('Kwota rachunku nie zgadza się z podanymi kwotami w formularzu, lub bilans tych kwot jest nierowny!');
         }
     }
-
 
 }

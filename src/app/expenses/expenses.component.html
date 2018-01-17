@@ -3,7 +3,7 @@
 
         <!--Content-->
         <div class="col-md-8">
-            <button type="button" class="btn btn-info container-fluid font-weight-bold" data-target="#addBillModal" data-toggle="modal">Dodaj nowy rachunek</button>
+            <button type="button" class="btn btn-info container-fluid font-weight-bold" data-target="#addBillModal" data-toggle="modal">Dodaj nowy wydatek</button>
             <div class="container-fluid margin-top clear-padding" *ngFor="let expense of expensesList">
                 <div class="list-inline bill-style" *ngIf="expense.groupId === groupId">
                     <div class="bill-border"></div>
@@ -53,7 +53,7 @@
 
                 <!--Nagłowek-->
                 <div class="modal-header">
-                    <h4 class="modal-title" id="modelTitleId">Dodaj użytkownika:</h4>
+                    <h4 class="modal-title" id="modelTitleId">Dodaj użytkownika do grupy:</h4>
                 </div>
 
                 <!--Content-->
@@ -61,11 +61,9 @@
                     <div class="form-group">
                         <label for="userId">Wybierz z listy:</label>
                         <select formControlName="userId" class="form-control">
-                          <ng-container *ngFor="let user of usersList">
-                            <option value="{{user.id}}">
+                            <option *ngFor="let user of usersList" value="{{user.id}}" >
                                 {{user.name}}
                             </option>
-                          </ng-container>
                         </select>
                     </div>
                 </div>
