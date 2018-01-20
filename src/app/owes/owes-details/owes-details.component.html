@@ -34,7 +34,7 @@
 
                     <tr *ngIf="userId === owe.debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]">
                         <td>{{ owe.expenseName}}</td>
-                        <td class="font-weight-bold" [style.color]="owe.owesAmount > 0 ? 'green' : 'red'">{{ owe.owesAmount}} zł</td>
+                        <td class="font-weight-bold" style="color: red">{{ owe.owesAmount}} zł</td>
                     </tr>
 
                 </tbody>
