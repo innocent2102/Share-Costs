@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-page-not-found',
   template: `
     <h1>
-      page-not-found works!
+      Wybierz grupę albo użytkownika!
     </h1>
   `
 })
