@@ -14,7 +14,7 @@ const appRoutes: Routes = [
     { path: 'expenses-details/:expenseId/:expenseName/:expenseAmount', component: ExpensesDetailsComponent },
     { path: 'owes/:userName/:userId', component: OwesComponent },
     { path: 'owes-details/:debtorId/:userId/:userName/:debtorName', component: OwesDetailsComponent },
-    { path: '', redirectTo: '/groups/2', pathMatch: 'full' },
+    { path: '', redirectTo: '/expenses/Hiszpania/5', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
 

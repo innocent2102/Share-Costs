@@ -73,7 +73,7 @@ export class ExpensesComponent implements OnInit {
             .subscribe(
             response => {
                     this.refreshUsersGroupsList();
-                    alert('Użytkownik usunięty z grupy');
+                    alert('Użytkownik dodany do grupy');
                 });
         }else {
             alert('Ten użytkownik należy już do grupy. Wybierz inną osobę, która nie należy do tej grupy');
@@ -90,6 +90,7 @@ export class ExpensesComponent implements OnInit {
         this.groupsService.removeUserGroup(this.groupId, userId)
         .subscribe(response => {
             this.refreshUsersGroupsList();
+            alert('Użytkownik usunięty z grupy');
         });
     }
 
@@ -172,6 +173,7 @@ export class ExpensesComponent implements OnInit {
                     this.refreshExpensesList();
                     this.expensesService.getUsersExpensesList();
                 });
+                alert('Rachunek dodany');
         }else {
             alert('Kwota rachunku nie zgadza się z podanymi kwotami w formularzu, lub bilans tych kwot jest nierowny!');
         }

@@ -16,7 +16,7 @@
                             <span class="bill-style-right">{{expense.name}}</span>
                             <span class="bill-amount">{{expense.amount}} zł</span>
                         </div>
-                        <span (click)="removeExpense(expense.id)" class="bill-delete fa fa-times pull-right"></span>
+                        <span (click)="removeExpense(expense.id)" class="bill-delete fa fa-times pull-right" title="Usuń wydatek"></span>
                     </div>
                     <div class="bill-border"></div>
                 </div>
@@ -35,7 +35,7 @@
                     <ng-container *ngFor="let user of usersGroupsList">
                         <a class="list-group-item list-group-item-action" *ngIf="user.groupId == groupId">
                             <i class="fa fa-user users-groups-icon" aria-hidden="true"></i>{{user.userName}}
-                            <i (click)="removeUserGroup(user.userId)" class="fa fa-trash-o pull-right" title="Usuń" aria-hidden="true"></i>
+                            <i (click)="removeUserGroup(user.userId)" class="fa fa-trash-o pull-right" title="Usuń znajomego z grupy" aria-hidden="true"></i>
                         </a>
                     </ng-container>
                 </ul>
@@ -47,7 +47,7 @@
 
 <!-- Dodaj użytkownika Modal -->
 <div class="modal fade" id="addUserGroupModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-xs" role="document">
         <form [formGroup]="newUserGroupForm" (ngSubmit)="addNewUserGroup()">
             <div class="modal-content">
 
@@ -81,7 +81,7 @@
 
 <!-- Dodaj rachunek Modal -->
 <div class="modal fade" id="addBillModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xs" role="document">
         <div class="modal-content">
 
             <!--Nagłowek-->
@@ -94,7 +94,7 @@
                 <div class="form-group">
 
                     <div class="container">
-                        <label for="billName">Nazwa:&nbsp;&nbsp;</label><input type="text" name="billName" id="billName" [(ngModel)]="newBillName" />&nbsp;&nbsp;
+                        <label for="billName">Nazwa:&nbsp;&nbsp;</label><input type="text" name="billName" id="billName" [(ngModel)]="newBillName" /> <br>
                         <label for="billAmount">Kwota: &nbsp;&nbsp;</label><input width="50" f name="billAmount" id="billAmount" type="number" [(ngModel)]="newBillAmount" />
                     </div>
 
@@ -103,8 +103,8 @@
                             <thead>
                                 <tr>
                                     <th>Imię: </th>
-                                    <th>Zapłacił: </th>
-                                    <th>Winien: </th>
+                                    <th>Zapłacił:</th>
+                                    <th>Winien:</th>
                                 </tr>
                             </thead>
 
@@ -113,8 +113,8 @@
                                 <ng-container *ngFor="let user of usersGroupsList">
                                     <tr *ngIf="user.groupId === groupId">
                                         <td>{{user.userName}}</td>
-                                        <td><input type="number" [(ngModel)]="user.paid" /></td>
-                                        <td><input type="number" [(ngModel)]="user.debt" /></td>
+                                        <td><input style="width: 50px" type="number" [(ngModel)]="user.paid" /></td>
+                                        <td><input style="width: 50px" type="number" [(ngModel)]="user.debt" /></td>
                                     </tr>
                                 </ng-container>
                             </tbody>
@@ -127,7 +127,7 @@
             <!--Stopka-->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                <button type="button" (click)="addNewBill()" data-dismiss="modal" class="btn btn-primary">Dodaj</button>
+                <button type="button" (click)="addNewBill()" class="btn btn-primary">Dodaj</button>
             </div>
 
         </div>

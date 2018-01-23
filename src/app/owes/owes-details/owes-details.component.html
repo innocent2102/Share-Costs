@@ -1,9 +1,9 @@
-<h3 class="header-balance ">{{userName}} - {{debtorName}}</h3>
+<h4 class="header-balance  font-weight-bold">{{userName}} - {{debtorName}}</h4>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
 
-            <p class="lead font-weight-bold">{{debtorName}} winny:</p>
+            <p class="lead">{{debtorName}} winny:</p>
             <table class="table table-hover">
                 <thead class="btn-info">
                     <tr>
@@ -13,7 +13,7 @@
                 </thead>
                 <tbody *ngFor="let owe of owesList">
 
-                    <tr *ngIf="userId === owe.userId && owe.debtorId === debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]">
+                    <tr *ngIf="userId === owe.userId && owe.debtorId === debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]" style="cursor: pointer">
                         <td>{{ owe.expenseName}}</td>
                         <td class="font-weight-bold" [style.color]="owe.owesAmount > 0 ? 'green' : 'red'">{{ owe.owesAmount}} zł</td>
                     </tr>
@@ -22,7 +22,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            <p class="lead font-weight-bold">{{userName}} winny:</p>
+            <p class="lead">{{userName}} winny:</p>
             <table class="table table-hover">
                 <thead class="btn-info">
                     <tr>
@@ -32,7 +32,7 @@
                 </thead>
                 <tbody *ngFor="let owe of owesList">
 
-                    <tr *ngIf=" owe.debtorId === userId && owe.userId === debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]">
+                    <tr *ngIf=" owe.debtorId === userId && owe.userId === debtorId" [routerLink]="['/expenses-details', owe.expenseId, owe.expenseName, owe.expenseAmount]" style="cursor: pointer">
                         <td>{{ owe.expenseName}}</td>
                         <td class="font-weight-bold" style="color: red">{{ owe.owesAmount}} zł</td>
                     </tr>

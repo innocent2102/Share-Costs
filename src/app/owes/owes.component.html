@@ -2,8 +2,8 @@
     <div class="row">
 
         <!--Content długi-->
-        <div class="col-md-8">
-            <h4 class="header-balance">{{userName}} - bilans długów</h4>
+        <div class="col-md-8 clear-padding">
+            <h5 class="header-balance">{{userName}} - bilans długów</h5>
 
             <!--Dług-->
             <div class="col-md-12">
@@ -13,13 +13,13 @@
                         <tr>
                             <th>Dług</th>
                             <th>Kwota</th>
-                            <th>Usuń</th>
+                            <th>Spłać</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <ng-container *ngFor="let owe of owesGroupByList">
-                            <tr *ngIf="userId === owe.userId">
+                            <tr *ngIf="userId === owe.userId" style="cursor: pointer">
                                 <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">{{ owe.debtorName }}</td>
                                 <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]" class="font-weight-bold" [style.color]="(countDebtsAndOwes(owe.debtorId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}} zł</td>
                                 <td><span class="fa fa-times delete-owe-icon" (click)="removeOwe(userId, owe.debtorId)"></span></td>
@@ -27,7 +27,7 @@
                         </ng-container>
                         <ng-container *ngFor="let owe of owesGroupByList">
                             <ng-container *ngIf="userId === owe.debtorId">
-                                <tr *ngIf="showDebts(owe.debtorId, owe.userId,owe.owesAmount) < 0">
+                                <tr *ngIf="showDebts(owe.debtorId, owe.userId,owe.owesAmount) < 0" style="cursor: pointer">
                                     <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">{{ owe.userName }}</td>
                                     <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]" class="font-weight-bold" [style.color]="(showDebts(owe.debtorId, owe.userId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ showDebts(owe.debtorId, owe.userId, owe.owesAmount)}} zł</td>
                                     <td><span class="fa fa-times delete-owe-icon" (click)="removeOwe(userId, owe.debtorId)"></span></td>
