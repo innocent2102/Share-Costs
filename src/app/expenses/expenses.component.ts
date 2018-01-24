@@ -45,11 +45,14 @@ export class ExpensesComponent implements OnInit {
         .subscribe(data => this.usersList = data['records']);
     }
 
+    resetInputValue(input) {
+       input.value = '';
+    }
+
     refreshExpensesList() {
         this.expensesService.getExpensesList()
         .subscribe(data => this.expensesList = data['records']);
     }
-
 
     refreshUsersGroupsList() {
         this.groupsService.getUsersGroupsList()

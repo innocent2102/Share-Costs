@@ -19,7 +19,7 @@
 
                     <tbody>
                         <ng-container *ngFor="let owe of owesGroupByList">
-                            <tr *ngIf="userId === owe.userId" style="cursor: pointer">
+                            <tr *ngIf="userId === owe.userId && (countDebtsAndOwes(owe.debtorId, owe.owesAmount)) !==0" style="cursor: pointer">
                                 <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]">{{ owe.debtorName }}</td>
                                 <td [routerLink]="['/owes-details', owe.debtorId, owe.userId, owe.userName, owe.debtorName]" class="font-weight-bold" [style.color]="(countDebtsAndOwes(owe.debtorId, owe.owesAmount) < 0) ? 'red' : 'green'">{{ countDebtsAndOwes(owe.debtorId, owe.owesAmount)}} zł</td>
                                 <td><span class="fa fa-times delete-owe-icon" (click)="removeOwe(userId, owe.debtorId)"></span></td>
