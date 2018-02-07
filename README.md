@@ -1,3 +1,5 @@
+# Description
+
 Expenses management web application. Adding common bills, tracking debts, owes and paying them off. Everyone can check his balance and all expenses details. Data is saving on the server passing by Web API.
 
 Tools: Angular 5, TypeScript, MySQL, Web API, PHP, 
